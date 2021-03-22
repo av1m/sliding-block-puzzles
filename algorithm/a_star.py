@@ -1,17 +1,14 @@
 # coding: utf-8
 from typing import List
 
-from algorithm.strategy import Strategy
+from algorithm.search import Search
 from representation.puzzle import Puzzle
 
 
-class AStar(Strategy):
+class AStar(Search):
     def __init__(self, init_puzzle: Puzzle):
         super().__init__()
         self.start: Puzzle = init_puzzle
-
-    def __repr__(self) -> str:
-        return "A*"
 
     def solve(self) -> None:
         queue: List = [[self.start.heuristic_manhattan_distance(), self.start]]
