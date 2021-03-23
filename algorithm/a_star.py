@@ -10,6 +10,9 @@ class AStar(Search):
         super().__init__()
         self.start: Puzzle = init_puzzle
 
+    def __str__(self):
+        return "A*"
+
     def solve(self) -> None:
         queue: List = [[self.start.heuristic_manhattan_distance(), self.start]]
         expanded: List = []

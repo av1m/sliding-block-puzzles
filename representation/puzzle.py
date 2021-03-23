@@ -8,7 +8,7 @@ TypePuzzle = List[List[int]]
 
 
 class Puzzle:
-    def __init__(self, tiles) -> None:
+    def __init__(self, tiles: TypePuzzle) -> None:
         if (
             not isinstance(tiles, list)
             or len(tiles) < 0
