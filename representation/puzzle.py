@@ -69,6 +69,9 @@ class Puzzle:
 
         return RuntimeError("Invalid tile value")
 
+    def get_cost(self, i, j):
+        return 1 if self.tiles[i][j] % 2 == 0 else 2
+
     def get_possible_moves(self) -> List[Puzzle]:
         """
         Returns a list of all the possible moves
@@ -90,7 +93,7 @@ class Puzzle:
         Counts the number of misplaced tiles
         """
         return sum(
-            1
+            self.get_cost(i, j)
             for i in range(self.LEN_TILES)
             for j in range(self.LEN_TILES)
             if self.tiles[i][j] != self.GOAL_STATE[i][j]
@@ -110,3 +113,6 @@ class Puzzle:
             for i in range(self.LEN_TILES)
             for j in range(self.LEN_TILES)
         )
+
+    def is_goal(self):
+        return self.tiles == self.GOAL_STATE

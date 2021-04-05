@@ -7,14 +7,14 @@ from representation.puzzle import Puzzle
 
 class AStar(Search):
     def __init__(self, init_puzzle: Puzzle):
-        super().__init__()
-        self.start: Puzzle = init_puzzle
+        super().__init__(init_puzzle)
+        self.puzzle = init_puzzle
 
     def __str__(self):
         return "A*"
 
     def solve(self) -> None:
-        queue: List = [[self.start.heuristic_manhattan_distance(), self.start]]
+        queue: List = [[self.puzzle.heuristic_manhattan_distance(), self.puzzle]]
         expanded: List = []
         path = None
         self.expanded_nodes = 0
