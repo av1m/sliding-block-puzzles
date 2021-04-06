@@ -27,7 +27,7 @@ def return_puzzle(is_list: bool = False):
 
 
 class Puzzle:
-    def __init__(self, tiles) -> None:
+    def __init__(self, tiles: TypePuzzle) -> None:
         if (
             not isinstance(tiles, list)
             or len(tiles) < 0
@@ -105,12 +105,15 @@ class Puzzle:
             add_moves((i + 1, j))
         return moves
 
+    def get_cost(self, i, j):
+        return 1 if self.tiles[i][j] % 2 == 0 else 2
+
     def heuristic_misplaced(self) -> float:
         """
         Counts the number of misplaced tiles
         """
         return sum(
-            1
+            self.get_cost(i, j)
             for i in range(self.LEN_TILES)
             for j in range(self.LEN_TILES)
             if self.tiles[i][j] != self.GOAL_STATE[i][j]

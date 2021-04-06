@@ -12,10 +12,10 @@ class Search(ABC):
     To write an algorithm, just implement this class and override the solve method
     """
 
-    def __init__(self, initial_puzzle: Puzzle):
+    def __init__(self, init_puzzle: Puzzle):
         self.expanded_nodes: int = ...
         self.solution: List = ...
-        self.puzzle: Puzzle = initial_puzzle
+        self.puzzle: Puzzle = init_puzzle
 
     @abstractmethod
     def solve(self) -> None:
