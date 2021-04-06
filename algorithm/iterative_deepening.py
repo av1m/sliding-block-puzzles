@@ -4,8 +4,8 @@ from algorithm.search import Search
 
 
 class IterativeDeepening(Search):
-    def __init__(self):
-        super().__init__()
+    def __repr__(self):
+        return "Iterative Deepening Depth-First Search"
 
     def solve(self) -> None:
         pass

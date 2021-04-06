@@ -2,16 +2,14 @@
 from typing import List
 
 from algorithm.search import Search
-from representation.puzzle import Puzzle
 
 
 class AStar(Search):
-    def __init__(self, init_puzzle: Puzzle):
-        super().__init__()
-        self.start: Puzzle = init_puzzle
+    def __str__(self):
+        return "A*"
 
     def solve(self) -> None:
-        queue: List = [[self.start.heuristic_manhattan_distance(), self.start]]
+        queue: List = [[self.puzzle.heuristic_manhattan_distance(), self.puzzle]]
         expanded: List = []
         path = None
         self.expanded_nodes = 0
@@ -24,14 +22,14 @@ class AStar(Search):
 
             path = queue[i]
             queue = queue[:i] + queue[i + 1 :]
-            end_node = path[-1]
+            node = path[-1]
 
-            if end_node.tiles == end_node.GOAL_STATE:
+            if node.is_goal():
                 break
-            if end_node.tiles in expanded:
+            if node.tiles in expanded:
                 continue
 
-            for move in end_node.get_possible_moves():
+            for move in node.get_possible_moves(return_puzzle=True):
                 if move.tiles in expanded:
                     continue
                 new_path = (
@@ -39,7 +37,7 @@ class AStar(Search):
                         path[0]
                         + (
                             move.heuristic_manhattan_distance()
-                            - end_node.heuristic_manhattan_distance()
+                            - node.heuristic_manhattan_distance()
                         )
                     ]
                     + path[1:]
@@ -47,7 +45,7 @@ class AStar(Search):
                 )
 
                 queue.append(new_path)
-                expanded.append(end_node.tiles)
+                expanded.append(node.tiles)
 
             self.expanded_nodes += 1
         self.solution = path[1:]

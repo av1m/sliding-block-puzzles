@@ -2,9 +2,28 @@
 
 from __future__ import annotations
 
-from typing import List, Final
+import copy
+import logging
+from typing import List, Final, Tuple
+
+logger = logging.getLogger(__name__)
 
 TypePuzzle = List[List[int]]
+
+
+def return_puzzle(is_list: bool = False):
+    def decorator(function):
+        def wrapper(*args, **kwargs):
+            func = function(*args, **kwargs)
+            if kwargs.get("return_puzzle"):
+                if is_list:
+                    return [Puzzle(tiles) for tiles in func]
+                return Puzzle(func)
+            return func
+
+        return wrapper
+
+    return decorator
 
 
 class Puzzle:
@@ -17,8 +36,9 @@ class Puzzle:
             raise ValueError("tiles doesn't have the good format")
         # a list of lists representing the puzzle matrix [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
         self.tiles: TypePuzzle = tiles
-        self.LEN_TILES: int = len(tiles)
+        self.LEN_TILES: Final[int] = len(tiles)
         self.GOAL_STATE: Final[TypePuzzle] = self.goal()
+        self.BLANK: Final[int] = 0
 
     def __repr__(self) -> str:
         return "Puzzle(n={}, tiles={}, goal={})".format(
@@ -39,50 +59,50 @@ class Puzzle:
         [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11], [12, 13, 14, 15]]
         """
         full_tiles_goal = list(range(self.LEN_TILES * self.LEN_TILES))
-        parts = self.LEN_TILES
         return [
             full_tiles_goal[
                 (i * len(full_tiles_goal))
-                // parts : ((i + 1) * len(full_tiles_goal))
-                // parts
+                // self.LEN_TILES : ((i + 1) * len(full_tiles_goal))
+                // self.LEN_TILES
             ]
-            for i in range(parts)
+            for i in range(self.LEN_TILES)
         ]
 
-    def _swap(self, x1, y1, x2, y2) -> TypePuzzle:
-        tiles_copy: TypePuzzle = [list(copy_row) for copy_row in self.tiles]
-        tiles_copy[x1][y1], tiles_copy[x2][y2] = (
-            tiles_copy[x2][y2],
-            tiles_copy[x1][y1],
+    @return_puzzle()
+    def _swap(
+        self, ii: Tuple[int] or List[int], jj: Tuple[int] or List[int], **kwargs
+    ) -> TypePuzzle or Puzzle:
+        """https://stackoverflow.com/a/2493980 """
+        tiles = copy.deepcopy(self.tiles)
+        tiles[ii[0]][ii[1]], tiles[jj[0]][jj[1]] = (
+            tiles[jj[0]][jj[1]],
+            tiles[ii[0]][ii[1]],
         )
+        return tiles
 
-        return tiles_copy
+    def _get_index(self, tile: int, tiles: TypePuzzle = None):
+        tiles = tiles if tiles else self.tiles
+        tile_index = [item for sublist in tiles for item in sublist].index(tile)
+        return tile_index // self.LEN_TILES, tile_index % self.LEN_TILES
 
-    def _get_coordinates(self, tile: int, tiles: TypePuzzle = None):
-        if not tiles:
-            tiles = self.tiles
-
-        for i in range(self.LEN_TILES):
-            for j in range(self.LEN_TILES):
-                if tiles[i][j] == tile:
-                    return i, j
-
-        return RuntimeError("Invalid tile value")
-
-    def get_possible_moves(self) -> List[Puzzle]:
+    @return_puzzle(is_list=True)
+    def get_possible_moves(
+        self, return_puzzle: bool = False, **kwargs
+    ) -> List[TypePuzzle] or List[Puzzle]:
         """
-        Returns a list of all the possible moves
+        :return: All possible moves
         """
-        moves: List[Puzzle] = []
-        i, j = self._get_coordinates(0)  # blank space
-        if i > 0:
-            moves.append(Puzzle(self._swap(i, j, i - 1, j)))  # move up
-        if j < self.LEN_TILES - 1:
-            moves.append(Puzzle(self._swap(i, j, i, j + 1)))  # move right
-        if j > 0:
-            moves.append(Puzzle(self._swap(i, j, i, j - 1)))  # move left
-        if i < self.LEN_TILES - 1:
-            moves.append(Puzzle(self._swap(i, j, i + 1, j)))  # move down
+        moves: List[TypePuzzle] or List[Puzzle] = []
+        i, j = self._get_index(self.BLANK)
+        add_moves = lambda jj: moves.append(self._swap((i, j), jj))
+        if i > 0:  # up
+            add_moves((i - 1, j))
+        if j < self.LEN_TILES - 1:  # right
+            add_moves((i, j + 1))
+        if j > 0:  # left
+            add_moves((i, j - 1))
+        if i < self.LEN_TILES - 1:  # down
+            add_moves((i + 1, j))
         return moves
 
     def heuristic_misplaced(self) -> float:
@@ -102,7 +122,7 @@ class Puzzle:
         """
 
         def _get_distance(i, j):
-            i1, j1 = self._get_coordinates(self.tiles[i][j], self.GOAL_STATE)
+            i1, j1 = self._get_index(self.tiles[i][j], self.GOAL_STATE)
             return abs(i - i1) + abs(j - j1)
 
         return sum(
@@ -110,3 +130,16 @@ class Puzzle:
             for i in range(self.LEN_TILES)
             for j in range(self.LEN_TILES)
         )
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, Puzzle):
+            logger.warning(
+                "{} isn't type 'Puzzle'. So, will use default __eq__".format(
+                    type(o).__name__
+                )
+            )
+            return super().__eq__(o)
+        return self.tiles == o.tiles
+
+    def is_goal(self):
+        return self.tiles == self.GOAL_STATE

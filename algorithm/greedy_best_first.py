@@ -4,8 +4,8 @@ from algorithm.search import Search
 
 
 class GreedyBestFirst(Search):
-    def __init__(self):
-        super().__init__()
+    def __repr__(self):
+        return "Greedy Best-First Search"
 
     def solve(self) -> None:
         pass
