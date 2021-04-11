@@ -2,7 +2,7 @@
 from abc import abstractmethod, ABC
 from typing import List
 
-from representation.puzzle import Puzzle
+from representation.puzzle import Puzzle, TypePuzzle
 
 
 class Search(ABC):
@@ -14,7 +14,7 @@ class Search(ABC):
 
     def __init__(self, init_puzzle: Puzzle):
         self.expanded_nodes: int = ...
-        self.solution: List = ...
+        self.solution: List[TypePuzzle] = ...
         self.puzzle: Puzzle = init_puzzle
 
     @abstractmethod

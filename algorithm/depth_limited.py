@@ -18,7 +18,7 @@ class DepthLimited(Search):
             node = path[-1]
             if node.tiles in expanded:
                 continue
-            for move in node.get_possible_moves(return_puzzle=True):
+            for move in node.get_possible_moves():
                 if move.tiles in expanded:
                     continue
                 queue.append(path + [move])

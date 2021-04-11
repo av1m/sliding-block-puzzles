@@ -1,8 +1,9 @@
 # coding: utf-8
 
 import unittest
+from typing import List
 
-from representation.puzzle import Puzzle
+from representation.puzzle import Puzzle, TypePuzzle
 
 
 class PuzzleTestCase(unittest.TestCase):
@@ -33,33 +34,35 @@ class PuzzleTestCase(unittest.TestCase):
 
     def test_possible_moves3(self):
         puzzle: Puzzle = Puzzle([[4, 5, 3], [1, 2, 8], [7, 0, 6]])
-        moves = [
+        moves: List[Puzzle] = [
             Puzzle([[4, 5, 3], [1, 2, 8], [7, 6, 0]]),  # right
             Puzzle([[4, 5, 3], [1, 0, 8], [7, 2, 6]]),  # up
             Puzzle([[4, 5, 3], [1, 2, 8], [0, 7, 6]]),  # left
         ]
-        self.assertTrue(
-            all(x in puzzle.get_possible_moves(return_puzzle=True) for x in moves)
-        )
+        self.assertTrue(all(x in puzzle.get_possible_moves() for x in moves))
 
-        moves = [
+        moves: List[TypePuzzle] = [
             [[4, 5, 3], [1, 2, 8], [7, 6, 0]],  # right
             [[4, 5, 3], [1, 0, 8], [7, 2, 6]],  # up
             [[4, 5, 3], [1, 2, 8], [0, 7, 6]],  # left
         ]
-        self.assertTrue(all(x in puzzle.get_possible_moves() for x in moves))
+        self.assertTrue(
+            all(x in Puzzle.puzzles_to_list(puzzle.get_possible_moves()) for x in moves)
+        )
 
     def test_possible_moves4(self):
         puzzle: Puzzle = Puzzle(
             [[4, 1, 2, 3], [5, 6, 7, 11], [8, 9, 0, 15], [12, 13, 14, 10]]
         )
-        moves = [
+        moves: List[TypePuzzle] = [
             [[4, 1, 2, 3], [5, 6, 0, 11], [8, 9, 7, 15], [12, 13, 14, 10]],  # up
             [[4, 1, 2, 3], [5, 6, 7, 11], [8, 9, 15, 0], [12, 13, 14, 10]],  # right
             [[4, 1, 2, 3], [5, 6, 7, 11], [8, 0, 9, 15], [12, 13, 14, 10]],  # left
             [[4, 1, 2, 3], [5, 6, 7, 11], [8, 9, 14, 15], [12, 13, 0, 10]],  # down
         ]
-        self.assertTrue(all(x in puzzle.get_possible_moves() for x in moves))
+        self.assertTrue(
+            all(x in Puzzle.puzzles_to_list(puzzle.get_possible_moves()) for x in moves)
+        )
 
 
 if __name__ == "__main__":

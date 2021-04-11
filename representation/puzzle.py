@@ -11,21 +11,6 @@ logger = logging.getLogger(__name__)
 TypePuzzle = List[List[int]]
 
 
-def return_puzzle(is_list: bool = False):
-    def decorator(function):
-        def wrapper(*args, **kwargs):
-            func = function(*args, **kwargs)
-            if kwargs.get("return_puzzle"):
-                if is_list:
-                    return [Puzzle(tiles) for tiles in func]
-                return Puzzle(func)
-            return func
-
-        return wrapper
-
-    return decorator
-
-
 class Puzzle:
     def __init__(self, tiles: TypePuzzle) -> None:
         if (
@@ -39,6 +24,7 @@ class Puzzle:
         self.LEN_TILES: Final[int] = len(tiles)
         self.GOAL_STATE: Final[TypePuzzle] = self.goal()
         self.BLANK: Final[int] = 0
+        self.cost: int = 1
 
     def __repr__(self) -> str:
         return "Puzzle(n={}, tiles={}, goal={})".format(
@@ -68,10 +54,9 @@ class Puzzle:
             for i in range(self.LEN_TILES)
         ]
 
-    @return_puzzle()
     def _swap(
-        self, ii: Tuple[int] or List[int], jj: Tuple[int] or List[int], **kwargs
-    ) -> TypePuzzle or Puzzle:
+        self, ii: Tuple[int] or List[int], jj: Tuple[int] or List[int]
+    ) -> TypePuzzle:
         """https://stackoverflow.com/a/2493980 """
         tiles = copy.deepcopy(self.tiles)
         tiles[ii[0]][ii[1]], tiles[jj[0]][jj[1]] = (
@@ -85,16 +70,18 @@ class Puzzle:
         tile_index = [item for sublist in tiles for item in sublist].index(tile)
         return tile_index // self.LEN_TILES, tile_index % self.LEN_TILES
 
-    @return_puzzle(is_list=True)
-    def get_possible_moves(
-        self, return_puzzle: bool = False, **kwargs
-    ) -> List[TypePuzzle] or List[Puzzle]:
+    def get_possible_moves(self) -> List[Puzzle]:
         """
         :return: All possible moves
         """
-        moves: List[TypePuzzle] or List[Puzzle] = []
+        moves: List[Puzzle] = []
         i, j = self._get_index(self.BLANK)
-        add_moves = lambda jj: moves.append(self._swap((i, j), jj))
+
+        def add_moves(ij_new):
+            tiles_: Puzzle = Puzzle(self._swap((i, j), ij_new))
+            tiles_.get_cost(ij_new[0], ij_new[1])
+            moves.append(tiles_)
+
         if i > 0:  # up
             add_moves((i - 1, j))
         if j < self.LEN_TILES - 1:  # right
@@ -146,3 +133,7 @@ class Puzzle:
 
     def is_goal(self):
         return self.tiles == self.GOAL_STATE
+
+    @staticmethod
+    def puzzles_to_list(list_puzzle: List[Puzzle]) -> List[TypePuzzle]:
+        return [x.tiles for x in list_puzzle]

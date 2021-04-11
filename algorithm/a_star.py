@@ -29,7 +29,7 @@ class AStar(Search):
             if node.tiles in expanded:
                 continue
 
-            for move in node.get_possible_moves(return_puzzle=True):
+            for move in node.get_possible_moves():
                 if move.tiles in expanded:
                     continue
                 new_path = (
