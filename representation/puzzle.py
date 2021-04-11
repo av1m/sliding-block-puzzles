@@ -12,7 +12,7 @@ TypePuzzle = List[List[int]]
 
 
 class Puzzle:
-    def __init__(self, tiles: TypePuzzle) -> None:
+    def __init__(self, tiles: TypePuzzle, cost: int = 1) -> None:
         if (
             not isinstance(tiles, list)
             or len(tiles) < 0
@@ -24,11 +24,11 @@ class Puzzle:
         self.LEN_TILES: Final[int] = len(tiles)
         self.GOAL_STATE: Final[TypePuzzle] = self.goal()
         self.BLANK: Final[int] = 0
-        self.cost: int = 1
+        self.cost: int = cost
 
     def __repr__(self) -> str:
-        return "Puzzle(n={}, tiles={}, goal={})".format(
-            self.LEN_TILES, self.tiles, self.GOAL_STATE
+        return "Puzzle(n={}, tiles={}, goal={}, cost={})".format(
+            self.LEN_TILES, self.tiles, self.GOAL_STATE, self.cost
         )
 
     def __str__(self) -> str:
@@ -130,6 +130,9 @@ class Puzzle:
             )
             return super().__eq__(o)
         return self.tiles == o.tiles
+
+    def __lt__(self, other: Puzzle) -> bool:
+        return self.cost < other.cost
 
     def is_goal(self):
         return self.tiles == self.GOAL_STATE
