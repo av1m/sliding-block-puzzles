@@ -1,7 +1,7 @@
 # coding: utf-8
 from typing import List
 
-from algorithm.search import Search
+from sliding_puzzle.algorithm.search import Search
 
 
 class AStar(Search):
@@ -29,7 +29,7 @@ class AStar(Search):
             if node.tiles in expanded:
                 continue
 
-            for move in node.get_possible_moves():
+            for move in node.get_possible_actions():
                 if move.tiles in expanded:
                     continue
                 new_path = (

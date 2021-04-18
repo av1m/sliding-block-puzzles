@@ -1,8 +1,8 @@
 # coding: utf-8
 
-from algorithm.search import Search
 from typing import List
-from representation.puzzle import Puzzle
+
+from sliding_puzzle.algorithm.search import Search
 
 
 class UniformCost(Search):
@@ -28,7 +28,7 @@ class UniformCost(Search):
                 self.solution = node[0] + node[1]
                 self.expanded_nodes = len(expanded)
                 return
-            for action in node.get_possible_moves:
+            for action in node.get_possible_actions:
                 child = action
                 path2 = node[0] + node[1]
                 if child not in expanded and child not in queue[:][1]:

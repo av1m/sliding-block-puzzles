@@ -1,0 +1,36 @@
+name: Sliding Puzzle CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - uses: pre-commit/action@v2.0.0
+        with:
+          extra_args: --all-files
+      - name: Create Pull Request if pre-commit fail
+        if: ${{ failure() }}
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: "[bot] Changes by pre-commit action"
+          commit-message: "pre-commit bot reformat code"
+          body: "Automated changes by [pre-commit](https://github.com/av1m/sliding-block-puzzles/actions) GitHub action"
+          branch: fix-pre-commit
