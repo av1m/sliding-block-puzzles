@@ -56,5 +56,5 @@ class CLI:
             strategy = strategy(puzzle)
             strategy.solve()
             print("{0} - Expanded Nodes: {1}".format(strategy, strategy.expanded_nodes))
-            for _ in strategy.solution:
-                print(_)
+            for step in strategy.solution:
+                print(step)
