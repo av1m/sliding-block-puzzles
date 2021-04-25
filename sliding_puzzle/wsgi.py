@@ -9,6 +9,7 @@ from sliding_puzzle.algorithm import get_algorithm
 from sliding_puzzle.representation.puzzle import Puzzle
 
 app = Flask(__name__)
+application = app
 
 
 def all_diff(solutions: List[Puzzle]) -> List[int]:
