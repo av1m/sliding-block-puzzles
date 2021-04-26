@@ -12,7 +12,7 @@ TypePuzzle = List[List[int]]
 
 
 class Puzzle:
-    def __init__(self, tiles: TypePuzzle, cost: int = 1) -> None:
+    def __init__(self, tiles: TypePuzzle, cost: int = 0) -> None:
         if (
             not isinstance(tiles, list)
             or len(tiles) < 0
@@ -24,6 +24,7 @@ class Puzzle:
         self.LEN_TILES: Final[int] = len(tiles)
         self.GOAL_STATE: Final[TypePuzzle] = self.goal()
         self.BLANK: Final[int] = 0
+        # cout de deplacement pour aller du puzzle initial au puzzle en cours
         self.cost: int = cost
 
     def __repr__(self) -> str:
@@ -79,7 +80,7 @@ class Puzzle:
 
         def add_moves(ij_new):
             tiles_: Puzzle = Puzzle(self._swap((i, j), ij_new))
-            tiles_.get_cost(ij_new[0], ij_new[1])
+            tiles_.cost = self.get_cost(ij_new[0], ij_new[1])
             moves.append(tiles_)
 
         if i > 0:  # up
@@ -93,7 +94,7 @@ class Puzzle:
         return moves
 
     def get_cost(self, i, j):
-        return 1 if self.tiles[i][j] % 2 == 0 else 2
+        return self.cost + (1 if self.tiles[i][j] % 2 == 0 else 2)
 
     def heuristic_misplaced(self) -> float:
         """
