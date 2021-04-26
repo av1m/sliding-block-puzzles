@@ -1,8 +1,11 @@
 # coding: utf-8
+import logging
 from abc import abstractmethod, ABC
-from typing import List
+from typing import List, final
 
-from representation.puzzle import Puzzle, TypePuzzle
+from sliding_puzzle.representation.puzzle import Puzzle, TypePuzzle
+
+logger = logging.getLogger(__name__)
 
 
 class Search(ABC):
@@ -16,6 +19,8 @@ class Search(ABC):
         self.expanded_nodes: int = ...
         self.solution: List[TypePuzzle] = ...
         self.puzzle: Puzzle = init_puzzle
+        if not self.is_solvable(init_puzzle):
+            raise ValueError("The puzzle has no solution")
 
     @abstractmethod
     def solve(self) -> None:
@@ -26,6 +31,7 @@ class Search(ABC):
         return
 
     @staticmethod
+    @final
     def get_min_cost(queue: List[List[Puzzle]]):
         """
         Allows you to search for the Puzzle that has the minimum cost in a Puzzle list list
@@ -54,6 +60,41 @@ class Search(ABC):
             At index 1, is the index of the sublist where the minimum cost puzzle was found
         """
         return sorted(
-            [[x[-1], index] for index, x in enumerate(queue)],
+            [[puzzle[-1], index] for index, puzzle in enumerate(queue)],
             key=lambda list_: list_[0],
         )[0]
+
+    @staticmethod
+    @final
+    def is_solvable(puzzle: Puzzle) -> bool:
+        flat_list: List[int] = [
+            item for sublist in puzzle.tiles for item in sublist if item != puzzle.BLANK
+        ]
+
+        total_inversion: int = sum(
+            sum(1 for i in range(index, len(flat_list)) if (flat_list[i] < item))
+            for index, item in enumerate(flat_list)
+        )
+
+        if puzzle.LEN_TILES % 2 != 0:  # odd
+            return total_inversion % 2 == 0
+        else:  # even
+            permutations = 0
+            flat_list = [item for sublist in puzzle.tiles for item in sublist]
+            for index in range(len(flat_list)):
+                variable = flat_list[index]
+                if index != variable:
+                    index_var = flat_list.index(index)
+                    flat_list[index], flat_list[index_var] = (
+                        flat_list[index_var],
+                        flat_list[index],
+                    )
+                    permutations += 1
+            i1, j1 = puzzle.get_index(0)
+            distance = abs(0 - i1) + abs(0 - j1)
+            return (
+                True
+                if ((distance % 2 == 0) and (permutations % 2 == 0))
+                or ((distance % 2 != 0) and (permutations % 2 != 0))
+                else False
+            )

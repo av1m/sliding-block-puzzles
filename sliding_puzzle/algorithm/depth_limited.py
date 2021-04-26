@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from algorithm.search import Search
+from sliding_puzzle.algorithm.search import Search
 
 
 class DepthLimited(Search):
@@ -18,7 +18,7 @@ class DepthLimited(Search):
             node = path[-1]
             if node.tiles in expanded:
                 continue
-            for move in node.get_possible_moves():
+            for move in node.get_possible_actions():
                 if move.tiles in expanded:
                     continue
                 queue.append(path + [move])

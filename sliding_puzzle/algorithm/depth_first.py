@@ -1,11 +1,10 @@
 # coding: utf-8
+from sliding_puzzle.algorithm.search import Search
 
-from algorithm.search import Search
 
-
-class UniformCost(Search):
+class DepthFirst(Search):
     def __repr__(self):
-        return "Uniform-Cost Search"
+        return "Depth-First Search"
 
     def solve(self) -> None:
         queue = [[self.puzzle]]
@@ -13,15 +12,15 @@ class UniformCost(Search):
         self.expanded_nodes = 0
         path = []
         while queue:
-            node, index = Search.get_min_cost(queue)
-            path = queue.pop(index)
+            path = queue.pop()
+            node = path[-1]
             if node.tiles in expanded:
                 continue
-            for move in node.get_possible_moves():
+            for move in node.get_possible_actions():
                 if move.tiles in expanded:
                     continue
                 queue.append(path + [move])
-            expanded.append([node.tiles, node.cost])
+            expanded.append(node.tiles)
             self.expanded_nodes += 1
             if node.is_goal():
                 break

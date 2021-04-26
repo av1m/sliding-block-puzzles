@@ -1,22 +1,22 @@
 # coding: utf-8
-from algorithm.search import Search
+from sliding_puzzle.algorithm.search import Search
 
 
-class DepthFirst(Search):
+class BreadthFirst(Search):
     def __repr__(self):
-        return "Depth-First Search"
+        return "Breadth-First Search"
 
-    def solve(self) -> None:
+    def solve(self):
         queue = [[self.puzzle]]
         expanded = []
         self.expanded_nodes = 0
         path = []
         while queue:
-            path = queue.pop()
+            path = queue.pop(0)
             node = path[-1]
             if node.tiles in expanded:
                 continue
-            for move in node.get_possible_moves():
+            for move in node.get_possible_actions():
                 if move.tiles in expanded:
                     continue
                 queue.append(path + [move])

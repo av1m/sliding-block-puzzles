@@ -2,11 +2,11 @@
 
 import unittest
 
-from algorithm.breadth_first import BreadthFirst
-from representation.puzzle import Puzzle
+from sliding_puzzle.algorithm.breadth_first import BreadthFirst
+from sliding_puzzle.representation.puzzle import Puzzle
 
 
-class PuzzleTestCase(unittest.TestCase):
+class BreadthFirstTestCase(unittest.TestCase):
     def test_BreadthFirst(self):
         puzzle: Puzzle = Puzzle(
             [[4, 1, 2, 3], [5, 6, 7, 11], [8, 9, 10, 15], [12, 13, 14, 0]]
