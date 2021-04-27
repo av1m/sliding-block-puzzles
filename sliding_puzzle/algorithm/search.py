@@ -1,9 +1,9 @@
 # coding: utf-8
 import logging
 from abc import abstractmethod, ABC
-from typing import List, final
+from typing import List, final, Union
 
-from sliding_puzzle.representation.puzzle import Puzzle, TypePuzzle
+from sliding_puzzle import Puzzle, TypePuzzle
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ class Search(ABC):
 
     @staticmethod
     @final
-    def get_min_cost(queue: List[List[Puzzle]]):
+    def get_min_cost(queue: List[List[Puzzle]]) -> List[Union[Puzzle, int]]:
         """
         Allows you to search for the Puzzle that has the minimum cost in a Puzzle list list
         Get the last element of each sublist then sort according to the minimum cost
@@ -67,16 +67,18 @@ class Search(ABC):
     @staticmethod
     @final
     def is_solvable(puzzle: Puzzle) -> bool:
-        flat_list: List[int] = [
-            item for sublist in puzzle.tiles for item in sublist if item != puzzle.BLANK
-        ]
-
-        total_inversion: int = sum(
-            sum(1 for i in range(index, len(flat_list)) if (flat_list[i] < item))
-            for index, item in enumerate(flat_list)
-        )
-
         if puzzle.LEN_TILES % 2 != 0:  # odd
+            flat_list: List[int] = [
+                item
+                for sublist in puzzle.tiles
+                for item in sublist
+                if item != puzzle.BLANK
+            ]
+
+            total_inversion: int = sum(
+                sum(1 for i in range(index, len(flat_list)) if (flat_list[i] < item))
+                for index, item in enumerate(flat_list)
+            )
             return total_inversion % 2 == 0
         else:  # even
             permutations = 0
@@ -91,7 +93,10 @@ class Search(ABC):
                     )
                     permutations += 1
             i1, j1 = puzzle.get_index(0)
-            distance = abs(0 - i1) + abs(0 - j1)
+            i2, j2 = Puzzle(puzzle.GOAL_STATE).get_index(
+                0
+            )  # We retrieve the position of index 0 in the GOAL STATE
+            distance = abs(i2 - i1) + abs(j2 - j1)
             return (
                 True
                 if ((distance % 2 == 0) and (permutations % 2 == 0))

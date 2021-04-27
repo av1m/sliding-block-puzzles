@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from sliding_puzzle.algorithm.a_star import AStar
+from sliding_puzzle.algorithm.a_star import Search
 from sliding_puzzle.algorithm.breadth_first import BreadthFirst
 from sliding_puzzle.algorithm.depth_first import DepthFirst
 from sliding_puzzle.algorithm.depth_limited import DepthLimited

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from sliding_puzzle.algorithm.search import Search
+from sliding_puzzle.algorithm import Search
 
 
 class GreedyBestFirst(Search):
