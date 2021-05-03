@@ -13,8 +13,12 @@ class DepthLimited(Search):
         self.expanded_nodes = 0
         path = []
         limit = 3
+        cutoff = False
         while queue:
             path = queue.pop()
+            if path.len() > limit:
+                cutoff = True
+                continue
             node = path[-1]
             if node.tiles in expanded:
                 continue
@@ -26,4 +30,6 @@ class DepthLimited(Search):
             self.expanded_nodes += 1
             if node.is_goal():
                 break
+        if cutoff:
+            print("Peut être une solution")
         self.solution = path
