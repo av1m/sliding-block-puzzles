@@ -1,6 +1,6 @@
 # coding=utf-8
-from sliding_puzzle.algorithm.a_star import AStar
-from sliding_puzzle.representation.puzzle import Puzzle
+from sliding_puzzle import Puzzle
+from sliding_puzzle.algorithm import AStar
 
 if __name__ == "__main__":
     puzzles = [
@@ -10,15 +10,15 @@ if __name__ == "__main__":
         [[1, 2, 3], [0, 4, 6], [7, 5, 8]],
         [[1, 0, 3], [7, 2, 5], [8, 4, 6]],
     ]
-    puzzle: Puzzle = Puzzle(
-        [[4, 1, 2, 3], [5, 6, 7, 11], [8, 9, 10, 15], [12, 13, 14, 0]],
-        # [[3, 1, 2], [0, 4, 5], [6, 7, 8]]
-    )
 
     for _puzzle in puzzles:
-        print("__")
+        print("---")
         puzzle = Puzzle(_puzzle)
         for strategy in [AStar]:
             strategy = strategy(puzzle)
             strategy.solve()
-            print("{0} - Expanded Nodes: {1}".format(strategy, strategy.expanded_nodes))
+            print(
+                "{0} - Expanded Nodes: {1} \n{0} - Cost: {2}".format(
+                    strategy, strategy.expanded_nodes, strategy.solution[-1].cost
+                )
+            )

@@ -1,2 +1,2 @@
 # coding: utf-8
-from sliding_puzzle.representation.puzzle import Puzzle
+from sliding_puzzle.representation.puzzle import Puzzle, TypePuzzle

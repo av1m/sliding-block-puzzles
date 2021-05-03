@@ -1,6 +1,8 @@
 # coding: utf-8
+from typing import List, Union
 
-from sliding_puzzle.algorithm.search import Search
+from sliding_puzzle import Puzzle
+from sliding_puzzle.algorithm import Search
 
 
 class UniformCost(Search):
@@ -13,11 +15,13 @@ class UniformCost(Search):
         self.expanded_nodes = 0
         path = []
         while queue:
-            node, index = Search.get_min_cost(queue)
+            cost_min: List[Union[Puzzle, int]] = Search.get_min_cost(queue)
+            node: Puzzle = cost_min[0]
+            index: int = cost_min[1]
             path = queue.pop(index)
             if node.tiles in expanded:
                 continue
-            for move in node.get_possible_moves():
+            for move in node.get_possible_actions():
                 if move.tiles in expanded:
                     continue
                 queue.append(path + [move])
