@@ -14,6 +14,7 @@ class DepthFirst(Search):
         while queue:
             path = queue.pop()
             node = path[-1]
+            print(node)
             if node.tiles in expanded:
                 continue
             for move in node.get_possible_actions():

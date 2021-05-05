@@ -213,6 +213,7 @@ class Puzzle:
             add_action((i, j - 1))
         if i < self.LEN_TILES - 1:  # down
             add_action((i + 1, j))
+        moves.reverse()
         return moves
 
     def get_cost(self, i, j) -> int:

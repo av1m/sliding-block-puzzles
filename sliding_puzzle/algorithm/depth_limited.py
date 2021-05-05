@@ -5,18 +5,18 @@ from sliding_puzzle.algorithm import Search
 
 class DepthLimited(Search):
     def __repr__(self):
-        return "Breadth-Limited Search"
+        return "Depth-Limited Search"
 
     def solve(self) -> None:
         queue = [[self.puzzle]]
         expanded = []
         self.expanded_nodes = 0
         path = []
-        limit = 3
+        limit = 7
         cutoff = False
         while queue:
             path = queue.pop()
-            if path.len() > limit:
+            if len(path) > limit:
                 cutoff = True
                 continue
             node = path[-1]

@@ -38,6 +38,7 @@ class AStar(Search):
                         + (
                             move.heuristic_manhattan_distance()
                             - node.heuristic_manhattan_distance()
+                            + move.cost
                         )
                     ]
                     + path[1:]

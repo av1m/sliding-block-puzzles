@@ -8,19 +8,19 @@ class IterativeDeepening(Search):
         return "Iterative Deepening Depth-First Search"
 
     def solve(self) -> None:
-        queue2 = [[self.puzzle]]
+        queue = [[self.puzzle]]
         expanded = []
         self.expanded_nodes = 0
         path = []
         limit = 3
-        while queue2:
-            cutoff = False
-            queue = queue2.copy()
-            while queue:
-                path = queue.pop()
-                if path.len() > limit:
-                    queue2.append(path)
-                    cutoff = True
+        solution = False
+        while queue:
+            queue2 = queue.copy()
+            queue = []
+            while queue2:
+                path = queue2.pop()
+                if len(path) > limit:
+                    queue.append(path)
                     continue
                 node = path[-1]
                 if node.tiles in expanded:
@@ -28,12 +28,13 @@ class IterativeDeepening(Search):
                 for move in node.get_possible_actions():
                     if move.tiles in expanded:
                         continue
-                    queue.append(path + [move])
+                    queue2.append(path + [move])
                 expanded.append(node.tiles)
                 self.expanded_nodes += 1
                 if node.is_goal():
+                    solution = True
                     break
-            if not cutoff:
+            if solution:
                 break
             else:
                 limit += 3

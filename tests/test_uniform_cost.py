@@ -2,16 +2,16 @@
 
 import unittest
 
-from sliding_puzzle.algorithm.breadth_first import BreadthFirst
+from sliding_puzzle.algorithm import *
 from sliding_puzzle.representation.puzzle import Puzzle
 
 
-class BreadthFirstTestCase(unittest.TestCase):
-    def test_BreadthFirst(self):
+class UniformCostTestCase(unittest.TestCase):
+    def test_UniformCost(self):
         puzzle: Puzzle = Puzzle(
             [[4, 1, 2, 3], [5, 6, 7, 11], [8, 9, 10, 15], [12, 13, 14, 0]]
         )
-        strategy = BreadthFirst(puzzle)
+        strategy = UniformCost(puzzle)
         strategy.solve()
         solution = [x.tiles for x in strategy.solution]
         self.assertEqual(
@@ -26,4 +26,4 @@ class BreadthFirstTestCase(unittest.TestCase):
             ],
             solution,
         )
-        self.assertEqual(192, strategy.expanded_nodes)
+        self.assertEqual(1721, strategy.expanded_nodes)

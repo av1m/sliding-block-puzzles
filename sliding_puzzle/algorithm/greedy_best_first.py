@@ -1,28 +1,46 @@
 # coding: utf-8
 
-from sliding_puzzle.algorithm import Search
+from sliding_puzzle.algorithm.search import Search
 
 
 class GreedyBestFirst(Search):
-    def __repr__(self):
+    def __str__(self):
         return "Greedy Best-First Search"
 
     def solve(self) -> None:
-        queue = [[self.puzzle]]
+        queue = [[self.puzzle.heuristic_manhattan_distance(), self.puzzle]]
         expanded = []
         self.expanded_nodes = 0
         path = []
         while queue:
-            node, index = Search.get_min_cost(queue)
-            path = queue.pop(index)
+            i = 0
+            for j in range(1, len(queue)):
+                if queue[i][0] > queue[j][0]:  # minimum
+                    i = j
+
+            path = queue[i]
+            queue = queue[:i] + queue[i + 1 :]
+            node = path[-1]
+
             if node.tiles in expanded:
                 continue
-            for move in node.get_possible_moves():
+            for move in node.get_possible_actions():
                 if move.tiles in expanded:
                     continue
-                queue.append(path + [move])
-            expanded.append([node.tiles, node.cost])
+                new_path = (
+                    [
+                        path[0]
+                        + (
+                            move.heuristic_manhattan_distance()
+                            - node.heuristic_manhattan_distance()
+                        )
+                    ]
+                    + path[1:]
+                    + [move]
+                )
+                queue.append(new_path)
+                expanded.append(node.tiles)
             self.expanded_nodes += 1
             if node.is_goal():
                 break
-        self.solution = path
+        self.solution = path[1:]
