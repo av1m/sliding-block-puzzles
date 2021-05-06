@@ -1,15 +1,20 @@
 # coding: utf-8
 from typing import List
 
+from sliding_puzzle import Puzzle, Heuristic, HeuristicManhattan
 from sliding_puzzle.algorithm.search import Search
 
 
 class AStar(Search):
+    def __init__(self, init_puzzle: Puzzle, heuristic: Heuristic = HeuristicManhattan):
+        super().__init__(init_puzzle)
+        self.heuristic = heuristic
+
     def __str__(self):
         return "A*"
 
     def solve(self) -> None:
-        queue: List = [[self.puzzle.heuristic_manhattan_distance(), self.puzzle]]
+        queue: List = [[self.heuristic.compute(self.puzzle), self.puzzle]]
         expanded: List = []
         path = None
         self.expanded_nodes = 0
@@ -22,13 +27,14 @@ class AStar(Search):
 
             path = queue[i]
             queue = queue[:i] + queue[i + 1 :]
-            node = path[-1]
+            node: Puzzle = path[-1]
 
             if node.is_goal():
                 break
             if node.tiles in expanded:
                 continue
 
+            move: Puzzle
             for move in node.get_possible_actions():
                 if move.tiles in expanded:
                     continue
@@ -36,9 +42,10 @@ class AStar(Search):
                     [
                         path[0]
                         + (
-                            move.heuristic_manhattan_distance()
-                            - node.heuristic_manhattan_distance()
+                            self.heuristic.compute(move)
+                            - self.heuristic.compute(node)
                             + move.cost
+                            - node.cost
                         )
                     ]
                     + path[1:]
@@ -47,6 +54,5 @@ class AStar(Search):
 
                 queue.append(new_path)
                 expanded.append(node.tiles)
-
             self.expanded_nodes += 1
         self.solution = path[1:]

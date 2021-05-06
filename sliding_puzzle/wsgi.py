@@ -5,16 +5,18 @@ from math import sqrt
 from typing import List
 
 from flask import Flask, request, Response, jsonify
+from flask_cors import CORS
 
-from sliding_puzzle.algorithm import get_algorithm
 from sliding_puzzle import Puzzle, TypePuzzle
+from sliding_puzzle.algorithm import get_algorithm
 
 app = Flask(__name__)
 application = app
+CORS(application)
 
 
 def all_diff(solutions: List[Puzzle]) -> List[int]:
-    """ Allows you to collect all the pieces to move to solve the puzzle
+    """Allows you to collect all the pieces to move to solve the puzzle
 
     :param solutions: a list of puzzle sorted in the order of the solution.
         The first element is the basic puzzle, the last is the solution
@@ -66,7 +68,10 @@ def main():
         blank_at_first = bool(data_json.get("blankAtFirst", True))
         tiles_tmp = data_json.get("tiles")
         try:
-            tiles: TypePuzzle = json.loads(tiles_tmp)
+            if isinstance(tiles_tmp, list):
+                tiles = tiles_tmp
+            else:
+                tiles: TypePuzzle = json.loads(tiles_tmp)
         except json.decoder.JSONDecodeError:
             sqrt_tiles = int(sqrt(len([int(t) for t in " ".join(tiles_tmp.split())])))
             tiles: TypePuzzle = [
@@ -77,7 +82,9 @@ def main():
         if (not tiles) or (not method) or (method not in get_algorithm.keys()):
             return jsonify(error=True, message="Malformed request"), 400
 
-        print(tiles)
+        print("blankAtFirst: ", blank_at_first)
+        print("Method: ", method)
+        print("Tiles: ", tiles)
 
         # The client sends a list with elements that have an offset of 1
         # The client does not return 0, but the largest value
@@ -98,10 +105,7 @@ def main():
     response = Response(json.dumps({"solutions": solutions}))
     response.headers["Access-Control-Allow-Origin"] = "*"
     response.headers["Access-Control-Allow-Credentials"] = True
-    response.headers["Access-Control-Allow-Headers"] = (
-        "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,"
-        "X-Amz-Security-Token,locale "
-    )
-    response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Origin,Content-Type"
+    response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS, HEAD"
 
     return response

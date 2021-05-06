@@ -26,4 +26,4 @@ class Astar(unittest.TestCase):
             ],
             solution,
         )
-        self.assertEqual(97, strategy.expanded_nodes)
+        self.assertEqual(6, strategy.expanded_nodes)

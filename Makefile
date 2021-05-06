@@ -22,7 +22,11 @@ test: ## Test all the project
 
 .PHONY: run
 run: ## Run the application locally
-	echo "Not implemented yet"
+	echo "Run the following command: python3 -m sliding_puzzle"
+
+.PHONY: serve
+serve: ## Serve the application with gunicorn
+	gunicorn sliding_puzzle.wsgi --reload --timeout 1000
 
 .PHONY: freeze
 freeze: ## Pin current dependencies

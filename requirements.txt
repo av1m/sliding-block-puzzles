@@ -5,3 +5,4 @@ pre-commit~=2.12.0
 # Server dependencies
 gunicorn~=20.1.0
 flask~=1.1.2
+flask-cors~=3.0.10

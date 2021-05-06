@@ -67,7 +67,9 @@ class Search(ABC):
     @staticmethod
     @final
     def is_solvable(puzzle: Puzzle) -> bool:
-        if puzzle.LEN_TILES % 2 != 0:  # odd
+        if len(puzzle) % 2 != 0:  # odd
+            # We use only the odd section
+            # https://www.geeksforgeeks.org/check-instance-15-puzzle-solvable/
             flat_list: List[int] = [
                 item
                 for sublist in puzzle.tiles
@@ -81,6 +83,7 @@ class Search(ABC):
             )
             return total_inversion % 2 == 0
         else:  # even
+            # https://fr.wikipedia.org/wiki/Taquin
             permutations = 0
             flat_list = [item for sublist in puzzle.tiles for item in sublist]
             for index in range(len(flat_list)):
