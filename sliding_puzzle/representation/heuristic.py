@@ -1,4 +1,5 @@
 # coding: utf-8
+import copy
 from abc import ABC, abstractmethod
 
 from .puzzle import Puzzle
@@ -84,10 +85,75 @@ class HeuristicManhattan(Heuristic):
             :return: the distance between the current tile and the goal state tile
             :rtype: float
             """
+            if puzzle.tiles[i][j] == puzzle.BLANK:
+                return 0
+            # index of the location where the tile should actually be
             i1, j1 = puzzle.get_index(puzzle.tiles[i][j], puzzle.GOAL_STATE)
             distance = abs(i - i1) + abs(j - j1)
             return distance * puzzle.get_cost(i, j, add_current_cost=False)
 
         return sum(
             _get_distance(i, j) for i in range(len(puzzle)) for j in range(len(puzzle))
+        )
+
+
+class HeuristicLinearConflicts(Heuristic):
+    def __repr__(self):
+        return "Linear Conflicts Heuristic"
+
+    @staticmethod
+    def compute(puzzle: Puzzle) -> float:
+        """Count moves that are not counted by Manhattan distance
+
+        The exact definition::
+
+        Two tiles tj and tk are said to be in a linear conflict if tj and tk are in the same line,
+        the goal positions of tj and tk are both in that line, tj is to the right of tk and goal position
+        of tj is to the left of the goal position of tk.
+
+        Inspired by
+        https://cse.sc.edu/~mgv/csce580sp15/gradPres/HanssonMayerYung1992.pdf
+
+        :param puzzle: puzzle in which we want to apply the heuristic
+        :type: Puzzle
+        :return: the distance given by this heuristic
+        :rtype: float
+        """
+
+        def _count_conflicts(row_col, solved, ans=0):
+            row_col = copy.deepcopy(row_col)
+            counts = [puzzle.BLANK] * len(puzzle)
+            for i, tile_1 in enumerate(row_col):
+                if tile_1 in solved and tile_1 != puzzle.BLANK:
+                    for j, tile_2 in enumerate(row_col):
+                        if (
+                            (tile_2 in solved and tile_2 != puzzle.BLANK)
+                            and (tile_1 != tile_2)
+                            and (
+                                (
+                                    (solved.index(tile_1) > solved.index(tile_2))
+                                    and i < j
+                                )
+                                or (
+                                    (solved.index(tile_1) < solved.index(tile_2))
+                                    and i > j
+                                )
+                            )
+                        ):
+                            counts[i] += 1
+            if max(counts) == 0:
+                return ans * 2
+            else:
+                i_max = counts.index(max(counts))
+                row_col[i_max] = -1
+                return _count_conflicts(row_col, solved, ans + 1)
+
+        puzzle = copy.deepcopy(puzzle)
+        transpose_tiles = list(map(list, zip(*puzzle.tiles)))
+        transpose_goal = list(map(list, zip(*puzzle.GOAL_STATE)))
+
+        return HeuristicManhattan.compute(puzzle) + sum(
+            _count_conflicts(transpose_tiles[i], transpose_goal[i])  # cols
+            + _count_conflicts(puzzle.tiles[i], puzzle.GOAL_STATE[i])  # rows
+            for i in range(len(puzzle))
         )

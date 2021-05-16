@@ -67,42 +67,25 @@ class Search(ABC):
     @staticmethod
     @final
     def is_solvable(puzzle: Puzzle) -> bool:
-        if len(puzzle) % 2 != 0:  # odd
-            # We use only the odd section
-            # https://www.geeksforgeeks.org/check-instance-15-puzzle-solvable/
-            flat_list: List[int] = [
-                item
-                for sublist in puzzle.tiles
-                for item in sublist
-                if item != puzzle.BLANK
-            ]
+        # We transform our puzzle into 1D (need for the inversions)
+        puzzle1d: List[int] = Puzzle.to1D(puzzle)
+        solved1d: List[int] = Puzzle.to1D(puzzle.GOAL_STATE)
+        # Calculation of the number of inversions
+        inversions: int = sum(
+            1
+            for i in range(len(puzzle) ** 2 - 1)
+            for j in range(i + 1, len(puzzle) ** 2)
+            if solved1d.index(puzzle1d[i]) > solved1d.index(puzzle1d[j])
+        )
+        # Recovery the index of 0 in the puzzle and in the solved puzzle
+        puzzle_blank = puzzle.get_index(puzzle.BLANK)
+        solved_blank = puzzle.get_index(puzzle.BLANK, puzzle.GOAL_STATE)
+        distance = abs(puzzle_blank[0] - solved_blank[0]) + abs(
+            puzzle_blank[1] - solved_blank[1]
+        )
 
-            total_inversion: int = sum(
-                sum(1 for i in range(index, len(flat_list)) if (flat_list[i] < item))
-                for index, item in enumerate(flat_list)
-            )
-            return total_inversion % 2 == 0
-        else:  # even
-            # https://fr.wikipedia.org/wiki/Taquin
-            permutations = 0
-            flat_list = [item for sublist in puzzle.tiles for item in sublist]
-            for index in range(len(flat_list)):
-                variable = flat_list[index]
-                if index != variable:
-                    index_var = flat_list.index(index)
-                    flat_list[index], flat_list[index_var] = (
-                        flat_list[index_var],
-                        flat_list[index],
-                    )
-                    permutations += 1
-            i1, j1 = puzzle.get_index(0)
-            i2, j2 = Puzzle(puzzle.GOAL_STATE).get_index(
-                0
-            )  # We retrieve the position of index 0 in the GOAL STATE
-            distance = abs(i2 - i1) + abs(j2 - j1)
-            return (
-                True
-                if ((distance % 2 == 0) and (permutations % 2 == 0))
-                or ((distance % 2 != 0) and (permutations % 2 != 0))
-                else False
-            )
+        if (distance % 2 == 0 and inversions % 2 == 0) or (
+            distance % 2 == 1 and inversions % 2 == 1
+        ):
+            return True
+        return False

@@ -4,4 +4,5 @@ from sliding_puzzle.representation.heuristic import (
     Heuristic,
     HeuristicMisplaced,
     HeuristicManhattan,
+    HeuristicLinearConflicts,
 )

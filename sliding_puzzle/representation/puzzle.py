@@ -247,6 +247,27 @@ class Puzzle:
         return [x.tiles for x in list_puzzle]
 
     @staticmethod
+    def to1D(puzzle: Puzzle or TypePuzzle) -> List[int]:
+        """Show the puzzle passed as a 1D parameter
+
+        Example::
+
+         [[2, 1, 3], [4, 5, 6], [7, 8, 0]] will become
+         [2, 1, 3, 4, 5, 6, 7, 8, 0]
+
+
+        :param puzzle: The puzzle turned into a flat list (1D)
+        :type puzzle: Puzzle or TypePuzzle (the function check ths instance)
+        :return: the 1D puzzle
+        :rtype: List[int]
+        """
+        if isinstance(puzzle, Puzzle):
+            return [item for sublist in puzzle.tiles for item in sublist]
+        elif isinstance(puzzle, list):
+            return [item for sublist in puzzle for item in sublist]
+        raise TypeError("Can't convert to 1D because the type is unknown")
+
+    @staticmethod
     def _check_tiles(tiles: TypePuzzle) -> None:
         """Check if the tiles passed as parameters is valid
 
