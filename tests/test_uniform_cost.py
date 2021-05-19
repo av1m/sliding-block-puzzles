@@ -26,4 +26,4 @@ class UniformCostTestCase(unittest.TestCase):
             ],
             solution,
         )
-        self.assertEqual(1721, strategy.expanded_nodes)
+        self.assertEqual(241, strategy.expanded_nodes)

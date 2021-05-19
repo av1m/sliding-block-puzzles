@@ -10,19 +10,14 @@ class DepthFirst(Search):
         queue = [[self.puzzle]]
         expanded = []
         self.expanded_nodes = 0
-        path = []
         while queue:
             path = queue.pop()
             node = path[-1]
-            print(node)
-            if node.tiles in expanded:
-                continue
-            for move in node.get_possible_actions():
-                if move.tiles in expanded:
-                    continue
-                queue.append(path + [move])
+            if node.is_goal():
+                self.solution = path
+                return
             expanded.append(node.tiles)
             self.expanded_nodes += 1
-            if node.is_goal():
-                break
-        self.solution = path
+            for move in node.get_possible_actions():
+                if not ((move.tiles in expanded) or move in [x[-1] for x in queue]):
+                    queue.append(path + [move])

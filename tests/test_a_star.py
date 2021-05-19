@@ -6,7 +6,7 @@ from sliding_puzzle.algorithm import *
 from sliding_puzzle.representation.puzzle import Puzzle
 
 
-class Astar(unittest.TestCase):
+class AStarTestCase(unittest.TestCase):
     def test_AStar(self):
         puzzle: Puzzle = Puzzle(
             [[4, 1, 2, 3], [5, 6, 7, 11], [8, 9, 10, 15], [12, 13, 14, 0]]

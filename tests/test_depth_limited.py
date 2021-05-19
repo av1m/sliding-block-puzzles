@@ -11,7 +11,7 @@ class DepthLimitedTestCase(unittest.TestCase):
         puzzle: Puzzle = Puzzle(
             [[1, 2, 3, 7], [4, 5, 6, 11], [8, 9, 10, 15], [12, 13, 14, 0]]
         )
-        strategy = DepthLimited(puzzle)
+        strategy = DepthLimited(puzzle, limit=6)
         strategy.solve()
         solution = [x.tiles for x in strategy.solution]
         self.assertEqual(
@@ -26,4 +26,4 @@ class DepthLimitedTestCase(unittest.TestCase):
             ],
             solution,
         )
-        self.assertEqual(7, strategy.expanded_nodes)
+        self.assertEqual(0, strategy.expanded_nodes)

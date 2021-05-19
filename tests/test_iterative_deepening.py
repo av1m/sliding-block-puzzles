@@ -17,6 +17,8 @@ class IterativeDeepeningTestCase(unittest.TestCase):
         self.assertEqual(
             [
                 [[1, 2, 3, 7], [4, 5, 6, 11], [8, 9, 10, 15], [12, 13, 14, 0]],
+                [[1, 2, 3, 7], [4, 5, 6, 11], [8, 9, 10, 15], [12, 13, 0, 14]],
+                [[1, 2, 3, 7], [4, 5, 6, 11], [8, 9, 10, 15], [12, 13, 14, 0]],
                 [[1, 2, 3, 7], [4, 5, 6, 11], [8, 9, 10, 0], [12, 13, 14, 15]],
                 [[1, 2, 3, 7], [4, 5, 6, 0], [8, 9, 10, 11], [12, 13, 14, 15]],
                 [[1, 2, 3, 0], [4, 5, 6, 7], [8, 9, 10, 11], [12, 13, 14, 15]],
@@ -26,4 +28,4 @@ class IterativeDeepeningTestCase(unittest.TestCase):
             ],
             solution,
         )
-        self.assertEqual(136, strategy.expanded_nodes)
+        self.assertEqual(0, strategy.expanded_nodes)

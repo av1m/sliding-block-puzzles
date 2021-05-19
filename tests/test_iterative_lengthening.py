@@ -6,12 +6,12 @@ from sliding_puzzle.algorithm import *
 from sliding_puzzle.representation.puzzle import Puzzle
 
 
-class GreedyBestFirstTestCase(unittest.TestCase):
-    def test_GreedyBestFirst(self):
+class IterativeLengtheningTestCase(unittest.TestCase):
+    def test_IterativeLengthening(self):
         puzzle: Puzzle = Puzzle(
             [[4, 1, 2, 3], [5, 6, 7, 11], [8, 9, 10, 15], [12, 13, 14, 0]]
         )
-        strategy = GreedyBestFirst(puzzle)
+        strategy = IterativeLengthening(puzzle)
         strategy.solve()
         solution = [x.tiles for x in strategy.solution]
         self.assertEqual(
@@ -26,4 +26,4 @@ class GreedyBestFirstTestCase(unittest.TestCase):
             ],
             solution,
         )
-        self.assertEqual(6, strategy.expanded_nodes)
+        self.assertEqual(0, strategy.expanded_nodes)

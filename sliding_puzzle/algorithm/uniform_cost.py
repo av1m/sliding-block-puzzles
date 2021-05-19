@@ -19,14 +19,16 @@ class UniformCost(Search):
             node: Puzzle = cost_min[0]
             index: int = cost_min[1]
             path = queue.pop(index)
-            if node.tiles in expanded:
-                continue
-            for move in node.get_possible_actions():
-                if move.tiles in expanded:
-                    continue
-                queue.append(path + [move])
-            expanded.append([node.tiles, node.cost])
-            self.expanded_nodes += 1
             if node.is_goal():
-                break
-        self.solution = path
+                self.solution = path
+                return
+            expanded.append(node.tiles)
+            self.expanded_nodes += 1
+            for move in node.get_possible_actions():
+                if not ((move.tiles in expanded) or move in [x[-1] for x in queue]):
+                    queue.append(path + [move])
+                elif move in [x[-1] for x in queue]:
+                    ind = [x[-1] for x in queue].index(move)
+                    if queue[ind][-1].cost > move.cost:
+                        queue.pop(ind)
+                        queue.append(path + [move])

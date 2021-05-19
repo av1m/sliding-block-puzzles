@@ -26,4 +26,4 @@ class BreadthFirstTestCase(unittest.TestCase):
             ],
             solution,
         )
-        self.assertEqual(192, strategy.expanded_nodes)
+        self.assertEqual(90, strategy.expanded_nodes)

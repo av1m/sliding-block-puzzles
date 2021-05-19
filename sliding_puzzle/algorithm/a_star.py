@@ -16,43 +16,28 @@ class AStar(Search):
     def solve(self) -> None:
         queue: List = [[self.heuristic.compute(self.puzzle), self.puzzle]]
         expanded: List = []
-        path = None
         self.expanded_nodes = 0
-
         while queue:
             i = 0
             for j in range(1, len(queue)):
                 if queue[i][0] > queue[j][0]:  # minimum
                     i = j
-
             path = queue[i]
             queue = queue[:i] + queue[i + 1 :]
-            node: Puzzle = path[-1]
-
+            node = path[-1]
             if node.is_goal():
-                break
-            if node.tiles in expanded:
-                continue
-
-            move: Puzzle
-            for move in node.get_possible_actions():
-                if move.tiles in expanded:
-                    continue
-                new_path = (
-                    [
-                        path[0]
-                        + (
-                            self.heuristic.compute(move)
-                            - self.heuristic.compute(node)
-                            + move.cost
-                            - node.cost
-                        )
-                    ]
-                    + path[1:]
-                    + [move]
-                )
-
-                queue.append(new_path)
-                expanded.append(node.tiles)
+                self.solution = path[1:]
+                return
+            expanded.append(node.tiles)
             self.expanded_nodes += 1
-        self.solution = path[1:]
+            for move in node.get_possible_actions():
+                if not ((move.tiles in expanded) or move in [x[-1] for x in queue]):
+                    new_path = (
+                        [self.heuristic.compute(move) + move.cost] + path[1:] + [move]
+                    )
+                    queue.append(new_path)
+                elif move in [x[-1] for x in queue]:
+                    ind = [x[-1] for x in queue].index(move)
+                    if queue[ind][0] > self.heuristic.compute(move):
+                        queue.pop(ind)
+                        queue.append(path + [move])

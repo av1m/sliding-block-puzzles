@@ -3,7 +3,7 @@ import logging
 from abc import abstractmethod, ABC
 from typing import List, final, Union
 
-from sliding_puzzle import Puzzle, TypePuzzle
+from sliding_puzzle import Puzzle
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ class Search(ABC):
 
     def __init__(self, init_puzzle: Puzzle):
         self.expanded_nodes: int = ...
-        self.solution: List[TypePuzzle] = ...
+        self.solution: List[Puzzle] = ...
         self.puzzle: Puzzle = init_puzzle
         if not self.is_solvable(init_puzzle):
             raise ValueError("The puzzle has no solution")

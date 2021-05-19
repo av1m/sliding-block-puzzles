@@ -331,10 +331,17 @@ class Puzzle:
         :return: a randomly generated puzzle
         :rtype: Puzzle
         """
-        puzzle = Puzzle(Puzzle._goal(n, blank_at_first))  # We start from a goal puzzle
-        for _ in range(mutations):
-            puzzle = random.choice(
-                puzzle.get_possible_actions()  # Get all possible actions
-            )  # Choose a random action
+        puzzle = Puzzle(
+            Puzzle._goal(n, blank_at_first), blank_at_first=blank_at_first
+        )  # We start from a goal puzzle
+        gf = None  # grand father
+        for i in range(mutations):
+            # Get all possible actions
+            actions = puzzle.get_possible_actions()
+            if i != 0:
+                actions.remove(gf)
+            gf = puzzle
+            # Choose a random action
+            puzzle = random.choice(actions)
         puzzle.cost = 0  # It's a start puzzle, so we need to set the cost at 0
         return puzzle
