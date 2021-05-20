@@ -6,7 +6,7 @@ from sliding_puzzle import Puzzle, Heuristic, HeuristicManhattan
 from sliding_puzzle.algorithm import *
 
 
-class Bidirectionnal(Search):
+class Bidirectional(Search):
     def __init__(self, init_puzzle: Puzzle, heuristic: Heuristic = HeuristicManhattan):
         super().__init__(init_puzzle)
         self.heuristic = heuristic

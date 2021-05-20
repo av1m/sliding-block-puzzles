@@ -99,7 +99,6 @@ class CLI:
 
         :return: None
         """
-        print(self.args)
         puzzle: Puzzle = Puzzle(self.parse_tiles(), self.args.blank_at_first)
         for strategy in self.parse_method():
             strategy = strategy(puzzle)

@@ -1,13 +1,7 @@
 # coding: utf-8
-from enum import Enum
 
 from sliding_puzzle import Puzzle
-from sliding_puzzle.algorithm import Search
-
-
-class DepthLimitedError(Enum):
-    FAILURE = "FAILURE"
-    CUTOFF = "CUTOFF"
+from sliding_puzzle.algorithm import Search, DepthLimitedError
 
 
 class DepthLimited(Search):

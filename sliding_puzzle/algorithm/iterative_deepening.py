@@ -1,7 +1,6 @@
 # coding: utf-8
 from sliding_puzzle import Puzzle
-from sliding_puzzle.algorithm import DepthLimited
-from sliding_puzzle.algorithm.depth_limited import DepthLimitedError
+from sliding_puzzle.algorithm import DepthLimited, DepthLimitedError
 
 
 class IterativeDeepening(DepthLimited):

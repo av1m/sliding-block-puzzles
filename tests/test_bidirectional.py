@@ -6,12 +6,12 @@ from sliding_puzzle.algorithm import *
 from sliding_puzzle.representation.puzzle import Puzzle
 
 
-class BidirectionnalTestCase(unittest.TestCase):
+class BidirectionalTestCase(unittest.TestCase):
     def test_Bidirectionnal(self):
         puzzle: Puzzle = Puzzle(
             [[4, 1, 2, 3], [5, 6, 7, 11], [8, 9, 10, 15], [12, 13, 14, 0]]
         )
-        strategy = Bidirectionnal(puzzle)
+        strategy = Bidirectional(puzzle)
         strategy.solve()
         solution = [x.tiles for x in strategy.solution]
         self.assertEqual(

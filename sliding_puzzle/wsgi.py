@@ -47,7 +47,7 @@ def all_diff(solutions: List[Puzzle]) -> List[int]:
     return result
 
 
-@app.route("/", methods=["POST"])
+@app.route("/solve", methods=["POST"])
 def main():
     """Web service allowing a Client to interact with the sliding_puzzle application
 
@@ -82,16 +82,6 @@ def main():
         if (not tiles) or (not method) or (method not in get_algorithm.keys()):
             return jsonify(error=True, message="Malformed request"), 400
 
-        print("blankAtFirst: ", blank_at_first)
-        print("Method: ", method)
-        print("Tiles: ", tiles)
-
-        # The client sends a list with elements that have an offset of 1
-        # The client does not return 0, but the largest value
-        # For example, for an 8-puzzle, the 0 will be the 8th element (which will be transformed into 9 in tiles_int)
-        # tile_max = (len(tiles[0]) ** 2) - 1  # because 0 is in the client the largest value
-        # tiles_int = [[0 if i == tile_max else int(i) + 1 for i in j] for j in tiles]
-
         # We solve the puzzle
         puzzle: Puzzle = Puzzle(tiles, blank_at_first=blank_at_first)
         strategy = get_algorithm.get(method)
@@ -109,3 +99,21 @@ def main():
     response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS, HEAD"
 
     return response
+
+
+@app.route("/", methods=["GET"])
+def home():
+    """Default path, indicates information about the project
+
+    :return: An HTTP request containing the basic information of the project
+    """
+    return (
+        jsonify(
+            url="https://github.com/av1m/sliding-block-puzzles",
+            endpoint=[
+                {"path": "/", "method": "GET"},
+                {"path": "/solve", "method": "POST"},
+            ],
+        ),
+        200,
+    )
