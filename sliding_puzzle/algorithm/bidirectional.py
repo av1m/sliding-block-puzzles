@@ -2,12 +2,14 @@
 import copy
 from typing import List
 
-from sliding_puzzle import Puzzle, Heuristic, HeuristicManhattan
+from sliding_puzzle import Puzzle, Heuristic, HeuristicLinearConflicts
 from sliding_puzzle.algorithm import *
 
 
 class Bidirectional(Search):
-    def __init__(self, init_puzzle: Puzzle, heuristic: Heuristic = HeuristicManhattan):
+    def __init__(
+        self, init_puzzle: Puzzle, heuristic: Heuristic = HeuristicLinearConflicts
+    ):
         super().__init__(init_puzzle)
         self.heuristic = heuristic
 

@@ -28,6 +28,11 @@ run: ## Run the application locally
 serve: ## Serve the application with gunicorn
 	gunicorn sliding_puzzle.wsgi --reload --timeout 1000
 
+.PHONY: deploy
+deploy: ## Deploy the application with gunicorn
+	echo -n "Don't forget to commit ! (Click on any key to continue)"; read
+	git push heroku master
+
 .PHONY: freeze
 freeze: ## Pin current dependencies
 	$(BIN)/pip freeze > requirements.txt

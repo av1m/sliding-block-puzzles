@@ -1,12 +1,14 @@
 # coding: utf-8
 from typing import List
 
-from sliding_puzzle import Puzzle, HeuristicManhattan, Heuristic
+from sliding_puzzle import Puzzle, HeuristicLinearConflicts, Heuristic
 from sliding_puzzle.algorithm.search import Search
 
 
 class GreedyBestFirst(Search):
-    def __init__(self, init_puzzle: Puzzle, heuristic: Heuristic = HeuristicManhattan):
+    def __init__(
+        self, init_puzzle: Puzzle, heuristic: Heuristic = HeuristicLinearConflicts
+    ):
         super().__init__(init_puzzle)
         self.heuristic = heuristic
 
