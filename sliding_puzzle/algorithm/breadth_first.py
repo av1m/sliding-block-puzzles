@@ -35,5 +35,6 @@ class BreadthFirst(Search):
                     queue.append(path + [move])
                     if move.is_goal():
                         self.solution = queue[-1]
+                        self.complexity_memory = len(queue) + self.expanded_nodes
                         return
         assert not self.solution  # no solution

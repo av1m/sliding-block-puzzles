@@ -16,7 +16,7 @@ class Bidirectional(Search):
     def __init__(
         self, init_puzzle: Puzzle, heuristic: Heuristic = HeuristicLinearConflicts
     ):
-        """ Initialize the class
+        """Initialize the class
         :param init_puzzle: the puzzle we want to solve.
         :type init_puzzle : Puzzle
         :param heuristic: the heuristic we want to use to solve the puzzle
@@ -72,6 +72,7 @@ class Bidirectional(Search):
                     path2 = queue2[ind][1:]
                     path2.reverse()
                     self.solution = path[1:] + path2
+                    self.complexity_memory = len(queue) + self.expanded_nodes
                     return
                 elif not ((move.tiles in expanded) or move in [x[-1] for x in queue]):
                     new_path = (
@@ -112,6 +113,7 @@ class Bidirectional(Search):
                     path2 = path2[1:]
                     path2.reverse()
                     self.solution = path + path2
+                    self.complexity_memory = len(queue) + self.expanded_nodes
                     return
                 elif not ((move.tiles in expanded2) or move in [x[-1] for x in queue2]):
                     new_path = (

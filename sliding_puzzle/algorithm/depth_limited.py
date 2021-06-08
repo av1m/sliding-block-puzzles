@@ -28,8 +28,11 @@ class DepthLimited(Search):
         :rtype: None
         """
         self.expanded_nodes = 0  # counter of expanded nodes
+        self.complexity_memory = 1
         self.solution = []  # initialize the path of the solution
-        result = self._recursive(self.puzzle, self.limit)
+        result = self._recursive(
+            puzzle=self.puzzle, limit=self.limit, complexity_memory=1
+        )
         if not result:  # We have a solution
             self.solution.reverse()
         elif result == DepthLimitedError.CUTOFF:
@@ -41,7 +44,9 @@ class DepthLimited(Search):
             )
         return
 
-    def _recursive(self, puzzle: Puzzle, limit: int) -> DepthLimitedError or None:
+    def _recursive(
+        self, puzzle: Puzzle, limit: int, complexity_memory: int
+    ) -> DepthLimitedError or None:
         """
         This method return:
         - a list of solution non empty in case of success
@@ -52,6 +57,8 @@ class DepthLimited(Search):
         :type puzzle: Puzzle
         :param limit: the maximum depth of the search
         :type limit: int
+        :param complexity_memory: the complexity memory of the solution
+        :type complexity_memory: int
         :return: a solution through `solution` attribute or raise an exception if there is a failure
         :rtype: DepthLimitedError or None
         """
@@ -62,11 +69,13 @@ class DepthLimited(Search):
             return DepthLimitedError.CUTOFF
         else:
             cut = False
+            move: Puzzle
             for (
                 move
             ) in puzzle.get_possible_actions():  # generation of the sons of the node
+                self.complexity_memory = max(self.complexity_memory, complexity_memory)
                 result = self._recursive(
-                    move, limit - 1
+                    move, limit - 1, complexity_memory + 1
                 )  # recursive call with limit decrease by one
                 if result == DepthLimitedError.CUTOFF:
                     cut = True

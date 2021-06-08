@@ -9,7 +9,7 @@ class IterativeDeepening(DepthLimited):
     """
 
     def __init__(self, init_puzzle: Puzzle, limit: int = 5, step: int = 3):
-        """ Initialize the class
+        """Initialize the class
         :param init_puzzle: the puzzle we want to solve.
         :type init_puzzle : Puzzle
         :param limit: the limit max of the depth for the first iteration
@@ -31,7 +31,8 @@ class IterativeDeepening(DepthLimited):
         result = DepthLimitedError.CUTOFF
         self.solution = []
         self.expanded_nodes = 0  # counter of expanded nodes
+        self.complexity_memory = 1
         while result:  # while no solution (so while result is a Depth-Limited Error)
-            result = self._recursive(self.puzzle, self.limit)  # call a DLS search
+            result = self._recursive(self.puzzle, self.limit, 1)  # call a DLS search
             self.limit += self.step  # increase the limit
         self.solution.reverse()

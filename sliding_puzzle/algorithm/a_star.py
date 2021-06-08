@@ -13,7 +13,7 @@ class AStar(Search):
     def __init__(
         self, init_puzzle: Puzzle, heuristic: Heuristic = HeuristicLinearConflicts
     ):
-        """ Initialize the class
+        """Initialize the class
         :param init_puzzle: the puzzle we want to solve.
         :type init_puzzle : Puzzle
         :param heuristic: the heuristic we want to use to solve the puzzle
@@ -47,6 +47,7 @@ class AStar(Search):
             node = path[-1]  # current node (last element of the path)
             if node.is_goal():
                 self.solution = path[1:]
+                self.complexity_memory = len(queue) + self.expanded_nodes
                 return
             expanded.append(node.tiles)
             self.expanded_nodes += 1

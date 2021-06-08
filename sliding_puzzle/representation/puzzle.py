@@ -183,6 +183,7 @@ class Puzzle:
             :return: None because we just append the action
             """
             tiles_: Puzzle = copy.deepcopy(self)
+            Puzzle.counter += 1
             tiles_.tiles = self._transition((i, j), ij_new)
             tiles_.cost = self.get_cost(ij_new[0], ij_new[1])
             moves.append(tiles_)

@@ -30,16 +30,19 @@ class IterativeLengthening(Search):
         result = DepthLimitedError.CUTOFF
         self.solution = []
         self.expanded_nodes = 0  # counter of expanded nodes
+        self.complexity_memory = 1
         limit_cost = 0
+        self.cost_sup_limit.append(limit_cost)
         while result:  # while no solution
-            result = self.recursive(self.puzzle, limit_cost)
-            limit_cost = min(
-                self.cost_sup_limit
-            )  # the new limit is the cost min reach during the iteration
+            result = self._recursive(self.puzzle, limit_cost, 1)
+            # the new limit is the cost min reach during the iteration
+            limit_cost = min(self.cost_sup_limit)
             self.cost_sup_limit = []
         self.solution.reverse()
 
-    def recursive(self, puzzle: Puzzle, limit_cost: int) -> DepthLimitedError or None:
+    def _recursive(
+        self, puzzle: Puzzle, limit_cost: int, complexity_memory: int
+    ) -> DepthLimitedError or None:
         """
         This method return:
         - a list of solution non empty in case of success
@@ -50,6 +53,8 @@ class IterativeLengthening(Search):
         :type puzzle: Puzzle
         :param limit_cost: the maximum depth of the search
         :type limit_cost: int
+        :param complexity_memory: the complexity memory of the solution
+        :type complexity_memory: int
         :return: a solution through `solution` attribute or raise an exception if there is a failure
         :rtype: DepthLimitedError or None
         """
@@ -61,10 +66,12 @@ class IterativeLengthening(Search):
             return DepthLimitedError.CUTOFF
         else:
             cut = False
+            move: Puzzle
             for (
                 move
             ) in puzzle.get_possible_actions():  # generation of the sons of the node
-                result = self.recursive(move, limit_cost)
+                self.complexity_memory = max(self.complexity_memory, complexity_memory)
+                result = self._recursive(move, limit_cost, complexity_memory + 1)
                 if result == DepthLimitedError.CUTOFF:
                     cut = True
                 elif result != DepthLimitedError.FAILURE:

@@ -32,6 +32,7 @@ class UniformCost(Search):
             )  # deletion of the path to the current node in the border
             if node.is_goal():
                 self.solution = path
+                self.complexity_memory = len(queue) + self.expanded_nodes
                 return
             expanded.append(node.tiles)
             self.expanded_nodes += 1

@@ -23,6 +23,7 @@ class DepthFirst(Search):
             node = path[-1]  # current node (last element of the path)
             if node.is_goal():
                 self.solution = path
+                self.complexity_memory = len(queue) + self.expanded_nodes
                 return
             expanded.append(node.tiles)
             self.expanded_nodes += 1
