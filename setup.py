@@ -23,5 +23,6 @@ setup(
     },
     license=license,
     packages=find_packages(),
+    entry_points={"console_scripts": ["sliding_puzzle=sliding_puzzle.__main__:main"]},
     python_requires=">=3.8",
 )

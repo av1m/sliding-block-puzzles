@@ -17,6 +17,7 @@ class Search(ABC):
 
     def __init__(self, init_puzzle: Puzzle):
         self.expanded_nodes: int = ...
+        self.complexity_memory: int = ...
         self.solution: List[Puzzle] = ...
         self.puzzle: Puzzle = init_puzzle
         if not self.is_solvable(init_puzzle):
@@ -67,6 +68,25 @@ class Search(ABC):
     @staticmethod
     @final
     def is_solvable(puzzle: Puzzle) -> bool:
+        """Determine if a Puzzle has a solution
+
+        Attention, this function uses the desired goal state of the puzzle passed in parameters.
+        The same puzzle with a different goal state can lead to different results
+
+        We count the number of inversions of the Puzzle.
+        To count the inversions, we transform our Puzzle in 1D to facilitate the count
+
+        We retrieve the position of the white box in the puzzle and in its goal state
+        Then we calculate the distance.
+        Finally, we see if the distance (which we have just calculated) and the number of inversions are even or odd
+
+        To have example Puzzle tests and test their solvency, you can look in the tests file
+
+        :param puzzle: the puzzle where we want to test the solvency
+        :type puzzle: Puzzle
+        :return: True if the puzzle is solvable
+        :rtype: bool
+        """
         # We transform our puzzle into 1D (need for the inversions)
         puzzle1d: List[int] = Puzzle.to1D(puzzle)
         solved1d: List[int] = Puzzle.to1D(puzzle.GOAL_STATE)

@@ -18,11 +18,13 @@ class CLI:
 
     Example::
 
+        You can add "python3 -m" in front of sliding_puzzle
+
         # Simple command
-        python3 -m sliding_puzzle --tiles 1 3 2 4 0 7 5 8 6 --method a_star
+        sliding_puzzle --tiles 1 3 2 4 0 7 5 8 6 --method a_star
 
         # More complex
-        python3 -m sliding_puzzle \
+        sliding_puzzle \
             --verbose \
             --tiles 4 1 2 3 5 6 7 11 8 9 10 15 12 13 14 0 \
             --method a_star depth_limited \
