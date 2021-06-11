@@ -1,6 +1,8 @@
 # coding: utf-8
-from typing import List
 
+from __future__ import annotations
+
+from sliding_puzzle import Puzzle, TypePuzzle
 from sliding_puzzle.algorithm import Search
 
 
@@ -9,25 +11,26 @@ class BreadthFirst(Search):
     Implementation of the interface Search with the Breadth First algorithm.
     """
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Breadth-First Search"
 
-    def solve(self):
+    def solve(self) -> None:
         """
         This method solve the puzzle and save the path to do it.
         It return nothing, but fill in self.solution with the good path.
         """
-        queue: List = [[self.puzzle]]  # initialization of the border
+        queue: list[list[Puzzle]] = [[self.puzzle]]  # initialization of the border
         self.expanded_nodes = 0  # counter of expanded nodes
         if self.puzzle.is_goal():
             self.solution = queue[-1]
             return
-        expanded = []  # list of nodes expanded
+        expanded: list[TypePuzzle] = []  # list of nodes expanded
         while queue:
-            path = queue.pop(0)  # deletion of current node in the border
-            node = path[-1]
+            path: list = queue.pop(0)  # deletion of current node in the border
+            node: Puzzle = path[-1]
             expanded.append(node.tiles)
             self.expanded_nodes += 1
+            move: Puzzle
             for (
                 move
             ) in node.get_possible_actions():  # generation of the sons of the node

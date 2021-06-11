@@ -90,6 +90,10 @@ class Puzzle:
         """
         return self.LEN_TILES
 
+    def __copy__(self) -> Puzzle:
+        Puzzle.counter += 1
+        return copy.deepcopy(self)
+
     @property
     def tiles(self) -> TypePuzzle:
         """Getter of tiles self.check_tiles(tiles)
@@ -124,7 +128,7 @@ class Puzzle:
         :return: the tiles modified by the transition of ii with jj
         :rtype: TypePuzzle
         """
-        tiles = copy.deepcopy(self.tiles)
+        tiles: TypePuzzle = copy.copy(self).tiles
         tiles[ii[0]][ii[1]], tiles[jj[0]][jj[1]] = (
             tiles[jj[0]][jj[1]],
             tiles[ii[0]][ii[1]],
@@ -182,11 +186,11 @@ class Puzzle:
             :type ij_new: tuple[int, int]
             :return: None because we just append the action
             """
-            tiles_: Puzzle = copy.deepcopy(self)
+            p: Puzzle = copy.copy(self)
             Puzzle.counter += 1
-            tiles_.tiles = self._transition((i, j), ij_new)
-            tiles_.cost = self.get_cost(ij_new[0], ij_new[1])
-            moves.append(tiles_)
+            p.tiles = self._transition((i, j), ij_new)
+            p.cost = self.get_cost(ij_new[0], ij_new[1])
+            moves.append(p)
 
         if i > 0:  # up
             add_action((i - 1, j))

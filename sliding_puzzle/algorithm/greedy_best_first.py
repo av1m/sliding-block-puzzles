@@ -1,5 +1,6 @@
 # coding: utf-8
-from typing import List
+
+from __future__ import annotations
 
 from sliding_puzzle import Puzzle, HeuristicLinearConflicts, Heuristic
 from sliding_puzzle.algorithm.search import Search
@@ -12,7 +13,7 @@ class GreedyBestFirst(Search):
 
     def __init__(
         self, init_puzzle: Puzzle, heuristic: Heuristic = HeuristicLinearConflicts
-    ):
+    ) -> None:
         """Initialize the class
         :param init_puzzle: the puzzle we want to solve.
         :type init_puzzle : Puzzle
@@ -22,7 +23,7 @@ class GreedyBestFirst(Search):
         super().__init__(init_puzzle)
         self.heuristic = heuristic
 
-    def __str__(self):
+    def __repr__(self) -> str:
         return "Greedy Best-First Search"
 
     def solve(self) -> None:
@@ -30,7 +31,7 @@ class GreedyBestFirst(Search):
         This method solve the puzzle and save the path to do it.
         It return nothing, but fill in self.solution with the good path.
         """
-        queue: List = [
+        queue: list = [
             [self.heuristic.compute(self.puzzle), self.puzzle]
         ]  # initialization of the border
         expanded = []  # list of nodes expanded

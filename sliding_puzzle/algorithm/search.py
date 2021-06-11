@@ -1,4 +1,5 @@
 # coding: utf-8
+
 import logging
 from abc import abstractmethod, ABC
 from typing import List, final, Union
@@ -15,7 +16,7 @@ class Search(ABC):
     To write an algorithm, just implement this class and override the solve method
     """
 
-    def __init__(self, init_puzzle: Puzzle):
+    def __init__(self, init_puzzle: Puzzle) -> None:
         self.expanded_nodes: int = ...
         self.complexity_memory: int = ...
         self.solution: List[Puzzle] = ...
@@ -98,9 +99,11 @@ class Search(ABC):
             if solved1d.index(puzzle1d[i]) > solved1d.index(puzzle1d[j])
         )
         # Recovery the index of 0 in the puzzle and in the solved puzzle
-        puzzle_blank = puzzle.get_index(puzzle.BLANK)
-        solved_blank = puzzle.get_index(puzzle.BLANK, puzzle.GOAL_STATE)
-        distance = abs(puzzle_blank[0] - solved_blank[0]) + abs(
+        puzzle_blank: tuple[int, int] = puzzle.get_index(puzzle.BLANK)
+        solved_blank: tuple[int, int] = puzzle.get_index(
+            puzzle.BLANK, puzzle.GOAL_STATE
+        )
+        distance: int = abs(puzzle_blank[0] - solved_blank[0]) + abs(
             puzzle_blank[1] - solved_blank[1]
         )
 

@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from typing import Union
+
 from sliding_puzzle import Puzzle
 from sliding_puzzle.algorithm import Search, DepthLimitedError
 
@@ -9,11 +11,11 @@ class DepthLimited(Search):
     This class implement the interface Search with the Depth Limited Tree Search (and no Graph Search) algorithm.
     """
 
-    def __init__(self, init_puzzle: Puzzle, limit: int = 5):
+    def __init__(self, init_puzzle: Puzzle, limit: int = 5) -> None:
         super().__init__(init_puzzle)
         self.limit = limit
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Depth-Limited Search"
 
     def solve(self) -> None:
@@ -68,13 +70,13 @@ class DepthLimited(Search):
         elif limit == 0:  # limit reached
             return DepthLimitedError.CUTOFF
         else:
-            cut = False
+            cut: bool = False
             move: Puzzle
             for (
                 move
             ) in puzzle.get_possible_actions():  # generation of the sons of the node
                 self.complexity_memory = max(self.complexity_memory, complexity_memory)
-                result = self._recursive(
+                result: Union[DepthLimitedError, None] = self._recursive(
                     move, limit - 1, complexity_memory + 1
                 )  # recursive call with limit decrease by one
                 if result == DepthLimitedError.CUTOFF:

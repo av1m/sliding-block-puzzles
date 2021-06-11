@@ -1,4 +1,5 @@
 # coding: utf-8
+
 import copy
 from abc import ABC, abstractmethod
 
@@ -148,7 +149,7 @@ class HeuristicLinearConflicts(Heuristic):
                 row_col[i_max] = -1
                 return _count_conflicts(row_col, solved, ans + 1)
 
-        puzzle = copy.deepcopy(puzzle)
+        puzzle = copy.copy(puzzle)
         transpose_tiles = list(map(list, zip(*puzzle.tiles)))
         transpose_goal = list(map(list, zip(*puzzle.GOAL_STATE)))
 

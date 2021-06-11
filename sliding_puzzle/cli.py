@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse
 import logging
 import math
-from typing import List, Callable
+from typing import Callable
 
 from sliding_puzzle import TypePuzzle, Puzzle
 from sliding_puzzle.algorithm import get_algorithm, Search
@@ -31,8 +31,8 @@ class CLI:
             --no-blank-at-first
     """
 
-    def __init__(self):
-        _parser = argparse.ArgumentParser(
+    def __init__(self) -> None:
+        _parser: argparse.ArgumentParser = argparse.ArgumentParser(
             prog="sliding_puzzle",
             formatter_class=argparse.RawDescriptionHelpFormatter,
             description="Usage example:\n"
@@ -74,7 +74,7 @@ class CLI:
             default=True,
             action=argparse.BooleanOptionalAction,
         )
-        self.args = _parser.parse_args()
+        self.args: argparse.Namespace = _parser.parse_args()
 
     def parse_tiles(self) -> TypePuzzle:
         """Parse the input to a list exploitable by the Puzzle class
@@ -82,11 +82,11 @@ class CLI:
         :return: a list of tiles ready to be used by Puzzle
         :rtype: TypePuzzle
         """
-        tiles = [int(t) for t in self.args.tiles]
+        tiles: list[int] = [int(t) for t in self.args.tiles]
         sqrt_tiles = int(math.sqrt(len(self.args.tiles)))
         return [tiles[x : x + sqrt_tiles] for x in range(0, len(tiles), sqrt_tiles)]
 
-    def parse_method(self) -> List[Callable[..., Search]]:
+    def parse_method(self) -> list[Callable[..., Search]]:
         """Get the algorithm the user wants to use
 
         :return: the list of all the algorithms that the user wishes to re-mail on his puzzle.
@@ -98,8 +98,6 @@ class CLI:
     def run(self) -> None:
         """Starts the command line interface
         Print only on the terminal
-
-        :return: None
         """
         puzzle: Puzzle = Puzzle(self.parse_tiles(), self.args.blank_at_first)
         for strategy in self.parse_method():

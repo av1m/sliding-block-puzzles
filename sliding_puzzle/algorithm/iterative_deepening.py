@@ -1,4 +1,5 @@
 # coding: utf-8
+
 from sliding_puzzle import Puzzle
 from sliding_puzzle.algorithm import DepthLimited, DepthLimitedError
 
@@ -8,7 +9,7 @@ class IterativeDeepening(DepthLimited):
     Implementation of the interface Search with the Iterative Deepening algorithm.
     """
 
-    def __init__(self, init_puzzle: Puzzle, limit: int = 5, step: int = 3):
+    def __init__(self, init_puzzle: Puzzle, limit: int = 5, step: int = 3) -> None:
         """Initialize the class
         :param init_puzzle: the puzzle we want to solve.
         :type init_puzzle : Puzzle
@@ -20,7 +21,7 @@ class IterativeDeepening(DepthLimited):
         super().__init__(init_puzzle, limit)
         self.step = step
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Iterative Deepening Depth-First Search"
 
     def solve(self) -> None:

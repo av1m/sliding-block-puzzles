@@ -1,6 +1,8 @@
 # coding: utf-8
+
+from __future__ import annotations
+
 import copy
-from typing import List
 
 from sliding_puzzle import Puzzle, Heuristic, HeuristicLinearConflicts
 from sliding_puzzle.algorithm import *
@@ -15,7 +17,7 @@ class Bidirectional(Search):
 
     def __init__(
         self, init_puzzle: Puzzle, heuristic: Heuristic = HeuristicLinearConflicts
-    ):
+    ) -> None:
         """Initialize the class
         :param init_puzzle: the puzzle we want to solve.
         :type init_puzzle : Puzzle
@@ -23,10 +25,10 @@ class Bidirectional(Search):
         :type heuristic : Heuristic
         """
         super().__init__(init_puzzle)
-        self.heuristic = heuristic
+        self.heuristic: Heuristic = heuristic
 
-    def __str__(self):
-        return "Bidirectionnal"
+    def __repr__(self) -> str:
+        return "Bidirectional search"
 
     def solve(self) -> None:
         """
@@ -34,18 +36,18 @@ class Bidirectional(Search):
         It return nothing, but fill in self.solution with the good path.
         """
         # creation of the back puzzle
-        puzzle2 = copy.deepcopy(self.puzzle)
+        puzzle2: Puzzle = copy.copy(self.puzzle)
         puzzle2.tiles = copy.deepcopy(self.puzzle.GOAL_STATE)
-        puzzle2.GOAL_STATE = copy.deepcopy(self.puzzle.tiles)
+        puzzle2.GOAL_STATE = copy.deepcopy(self.puzzle.tiles)  # type: ignore
 
-        queue: List = [
+        queue: list = [
             [self.heuristic.compute(self.puzzle), self.puzzle]
         ]  # border of the front puzzle
-        queue2: List = [
+        queue2: list = [
             [self.heuristic.compute(puzzle2), puzzle2]
         ]  # border of the back puzzle
-        expanded: List = []  # list of nodes expanded (front)
-        expanded2: List = []  # list of nodes expanded (back)
+        expanded: list = []  # list of nodes expanded (front)
+        expanded2: list = []  # list of nodes expanded (back)
         self.expanded_nodes = 0  # counter of expanded nodes
 
         while queue:
@@ -62,6 +64,7 @@ class Bidirectional(Search):
 
             expanded.append(node.tiles)
             self.expanded_nodes += 1
+            move: Puzzle
             for (
                 move
             ) in node.get_possible_actions():  # generation of the sons of the node
@@ -102,6 +105,7 @@ class Bidirectional(Search):
 
             expanded2.append(node2.tiles)
             self.expanded_nodes += 1
+            move: Puzzle
             for (
                 move
             ) in node2.get_possible_actions():  # generation of the sons of the node

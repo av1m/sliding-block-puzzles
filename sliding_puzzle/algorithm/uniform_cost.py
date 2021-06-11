@@ -1,5 +1,8 @@
 # coding: utf-8
-from typing import List, Union
+
+from __future__ import annotations
+
+from typing import Union
 
 from sliding_puzzle import Puzzle
 from sliding_puzzle.algorithm import Search
@@ -10,7 +13,7 @@ class UniformCost(Search):
     Implementation of the interface Search with the Uniform Cost algorithm.
     """
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Uniform-Cost Search"
 
     def solve(self) -> None:
@@ -22,7 +25,7 @@ class UniformCost(Search):
         expanded = []  # list of nodes expanded
         self.expanded_nodes = 0  # counter of expanded nodes
         while queue:
-            cost_min: List[Union[Puzzle, int]] = Search.get_min_cost(
+            cost_min: list[Union[Puzzle, int]] = Search.get_min_cost(
                 queue
             )  # list sorted by cost
             node: Puzzle = cost_min[0]  # get minimum cost
