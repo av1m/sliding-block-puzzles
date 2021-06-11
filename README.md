@@ -4,6 +4,27 @@
 [![Python3.9](https://img.shields.io/badge/Python-3.9-blue)](https://docs.python.org/3/whatsnew/3.9.html)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/av1m/sliding-block-puzzles/blob/master/LICENSE)
 
+Representation of a slide puzzle and implementation of algorithms allowing the resolution
+In this repository you will find:
+- Command Line Interface (CLI)
+- Webservice written in Flask (WSGI Server)
+- Representation of a Puzzle (i.e. sliding block puzzle)
+- Heuristics
+    - Linear Conflicts
+    - Misplaced
+    - Manhattan
+- Algorithms
+    - A* Search
+    - Breadth-First Search
+    - Depth-First Search
+    - Depth-Limited Search
+    - Greedy Best-First Search
+    - Iterative Deepening Depth-First Search
+    - Uniform-Cost Search
+    - Bidirectional search
+    - Iterative Lengthening Search
+    - Iterative Deepening A* Search
+
 ## Usage 📖
 
 At this stage, you can use the project in different ways:
@@ -43,6 +64,8 @@ You have now added the dependency, you can:
   > 💡 All the examples are in the [`sample/`](./sample/) directory
 * Run the CLI
    ```shell
+   sliding_puzzle
+   # Or, call it with python
    python -m sliding_puzzle
    ```
 * Run the server
@@ -69,7 +92,7 @@ Use `python3` or `python` command (depending on your configuration)
    make test
    ```
 
-Everything has been installed and configured correctly! 🎉
+Everything has been installed and configured correctly! 🎊
 
 ## Deploy the server 🚀
 
