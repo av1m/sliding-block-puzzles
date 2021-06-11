@@ -1,4 +1,6 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
+
+from __future__ import annotations
 
 from sliding_puzzle import Puzzle
 from sliding_puzzle.algorithm import DepthLimitedError
@@ -11,8 +13,8 @@ class IterativeLengthening(Search):
     """
 
     def __init__(self, init_puzzle: Puzzle) -> None:
-        """
-        Initialize the class
+        """Initialize the class
+
         :param init_puzzle: the puzzle we want to solve.
         :type init_puzzle : Puzzle
         """
@@ -23,12 +25,11 @@ class IterativeLengthening(Search):
         return "Iterative Lengthening Search"
 
     def solve(self) -> None:
-        """
-        This method solve the puzzle and save the path to do it.
+        """This method solve the puzzle and save the path to do it.
         It return nothing, but fill in self.solution with the good path.
         """
         result = DepthLimitedError.CUTOFF
-        self.solution = []
+        self.solution: list = []
         self.expanded_nodes = 0  # counter of expanded nodes
         self.complexity_memory = 1
         limit_cost = 0
@@ -40,15 +41,41 @@ class IterativeLengthening(Search):
             self.cost_sup_limit = []
         self.solution.reverse()
 
+    def _check_cost(self, puzzle: Puzzle, limit_cost: int) -> bool:
+        """Check the cost of the puzzle against the limit
+
+        This method seems trivial but it aims to be redefined in a child
+
+        :param puzzle: Puzzle on which we must check the cost
+        :type puzzle: Puzzle
+        :param limit_cost: Cost limit that the algorithm must not exceed
+        :type limit_cost: int
+        :return: true if the cost of the puzzle is strictly greater than the limit
+        :rtype: bool
+        """
+        return puzzle.cost > limit_cost
+
+    def _append_cost(self, puzzle: Puzzle) -> None:
+        """Add a cost to the list of cost limits
+
+        This method seems trivial but it aims to be redefined in a child
+
+        :param puzzle: puzzle where we get the cost
+        :type puzzle: Puzzle
+        """
+        self.cost_sup_limit.append(puzzle.cost)
+
     def _recursive(
         self, puzzle: Puzzle, limit_cost: int, complexity_memory: int
     ) -> DepthLimitedError or None:
-        """
+        """Recursive method used to implement the algorithm
+
         This method return:
         - a list of solution non empty in case of success
         - a list of empty solution in case of cutoff
         - an error in in the event that the algorithm returns failure.
             This case is not supposed to happen, see Search.is_solvable()
+
         :param puzzle: The puzzle on which we want to apply IDA*
         :type puzzle: Puzzle
         :param limit_cost: the maximum depth of the search
@@ -61,8 +88,8 @@ class IterativeLengthening(Search):
         if puzzle.is_goal():
             self.solution.append(puzzle)
             return
-        elif puzzle.cost > limit_cost:
-            self.cost_sup_limit.append(puzzle.cost)
+        elif self._check_cost(puzzle=puzzle, limit_cost=limit_cost):
+            self._append_cost(puzzle=puzzle)
             return DepthLimitedError.CUTOFF
         else:
             cut = False

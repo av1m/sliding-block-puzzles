@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from __future__ import annotations
 
@@ -27,8 +27,8 @@ class GreedyBestFirst(Search):
         return "Greedy Best-First Search"
 
     def solve(self) -> None:
-        """
-        This method solve the puzzle and save the path to do it.
+        """This method solve the puzzle and save the path to do it.
+
         It return nothing, but fill in self.solution with the good path.
         """
         queue: list = [

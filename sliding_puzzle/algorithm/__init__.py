@@ -1,19 +1,19 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from .exceptions import *
 
-from .a_star import AStar
 from .search import Search
+from .exceptions import DepthLimitedError
 from .breadth_first import BreadthFirst
 from .depth_first import DepthFirst
+from .a_star import AStar
 from .depth_limited import DepthLimited
-from .exceptions import DepthLimitedError
 from .greedy_best_first import GreedyBestFirst
 from .iterative_deepening import IterativeDeepening
 from .uniform_cost import UniformCost
 from .bidirectional import Bidirectional
-from .iterative_deepening_a_star import IterativeDeepeningAStar
 from .iterative_lengthening import IterativeLengthening
+from .iterative_deepening_a_star import IterativeDeepeningAStar
 
 
 get_algorithm = {
@@ -25,6 +25,6 @@ get_algorithm = {
     "iterative_deepening": IterativeDeepening,
     "uniform_cost": UniformCost,
     "bidirectional": Bidirectional,
-    "iterative_deepening_a_star": IterativeDeepeningAStar,
     "iterative_lengthening": IterativeLengthening,
+    "iterative_deepening_a_star": IterativeDeepeningAStar,
 }

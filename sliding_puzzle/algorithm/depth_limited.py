@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from typing import Union
 
@@ -19,7 +19,8 @@ class DepthLimited(Search):
         return "Depth-Limited Search"
 
     def solve(self) -> None:
-        """
+        """This method solve the puzzle and save the path to do it.
+
         This method return:
         - a list of solution non empty in case of success
         - a list of empty solution in case of cutoff
@@ -49,12 +50,14 @@ class DepthLimited(Search):
     def _recursive(
         self, puzzle: Puzzle, limit: int, complexity_memory: int
     ) -> DepthLimitedError or None:
-        """
+        """Recursive method to implement the algorithm
+
         This method return:
         - a list of solution non empty in case of success
         - a list of empty solution in case of cutoff
         - an error in in the event that the algorithm returns failure.
             This case is not supposed to happen, see Search.is_solvable()
+
         :param puzzle: The puzzle on which we want to apply the DLS
         :type puzzle: Puzzle
         :param limit: the maximum depth of the search

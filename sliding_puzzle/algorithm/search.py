@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 import logging
 from abc import abstractmethod, ABC
@@ -26,8 +26,8 @@ class Search(ABC):
 
     @abstractmethod
     def solve(self) -> None:
-        """
-        Allows to solve a `Puzzle` by indicating the solution found.
+        """Allows to solve a `Puzzle` by indicating the solution found.
+
         :return: None. Updates the value of the attributes of the class
         """
         return
@@ -35,8 +35,8 @@ class Search(ABC):
     @staticmethod
     @final
     def get_min_cost(queue: List[List[Puzzle]]) -> List[Union[Puzzle, int]]:
-        """
-        Allows you to search for the Puzzle that has the minimum cost in a Puzzle list list
+        """Allows to search for the Puzzle that has the minimum cost in a Puzzle list list
+
         Get the last element of each sublist then sort according to the minimum cost
         This function does not modify the queue list
 

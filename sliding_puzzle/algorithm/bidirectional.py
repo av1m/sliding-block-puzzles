@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from __future__ import annotations
 
@@ -19,6 +19,7 @@ class Bidirectional(Search):
         self, init_puzzle: Puzzle, heuristic: Heuristic = HeuristicLinearConflicts
     ) -> None:
         """Initialize the class
+
         :param init_puzzle: the puzzle we want to solve.
         :type init_puzzle : Puzzle
         :param heuristic: the heuristic we want to use to solve the puzzle
@@ -31,8 +32,8 @@ class Bidirectional(Search):
         return "Bidirectional search"
 
     def solve(self) -> None:
-        """
-        This method solve the puzzle and save the path to do it.
+        """This method solve the puzzle and save the path to do it.
+
         It return nothing, but fill in self.solution with the good path.
         """
         # creation of the back puzzle

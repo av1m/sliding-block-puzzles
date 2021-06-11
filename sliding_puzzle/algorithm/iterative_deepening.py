@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from sliding_puzzle import Puzzle
 from sliding_puzzle.algorithm import DepthLimited, DepthLimitedError
@@ -11,6 +11,7 @@ class IterativeDeepening(DepthLimited):
 
     def __init__(self, init_puzzle: Puzzle, limit: int = 5, step: int = 3) -> None:
         """Initialize the class
+
         :param init_puzzle: the puzzle we want to solve.
         :type init_puzzle : Puzzle
         :param limit: the limit max of the depth for the first iteration
@@ -25,8 +26,8 @@ class IterativeDeepening(DepthLimited):
         return "Iterative Deepening Depth-First Search"
 
     def solve(self) -> None:
-        """
-        This method solve the puzzle and save the path to do it.
+        """This method solve the puzzle and save the path to do it.
+
         It return nothing, but fill in self.solution with the good path.
         """
         result = DepthLimitedError.CUTOFF

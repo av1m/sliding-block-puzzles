@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from __future__ import annotations
 
@@ -15,12 +15,12 @@ class BreadthFirst(Search):
         return "Breadth-First Search"
 
     def solve(self) -> None:
-        """
-        This method solve the puzzle and save the path to do it.
+        """This method solve the puzzle and save the path to do it.
+
         It return nothing, but fill in self.solution with the good path.
         """
         queue: list[list[Puzzle]] = [[self.puzzle]]  # initialization of the border
-        self.expanded_nodes = 0  # counter of expanded nodes
+        self.expanded_nodes: int = 0  # counter of expanded nodes
         if self.puzzle.is_goal():
             self.solution = queue[-1]
             return

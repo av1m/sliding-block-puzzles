@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from __future__ import annotations
 
@@ -17,8 +17,7 @@ class UniformCost(Search):
         return "Uniform-Cost Search"
 
     def solve(self) -> None:
-        """
-        This method solve the puzzle and save the path to do it.
+        """This method solve the puzzle and save the path to do it.
         It return nothing, but fill in self.solution with the good path.
         """
         queue = [[self.puzzle]]  # initialization of the border

@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 """
 Representation of a sliding puzzle,
 also called sliding block puzzle or sliding tile puzzle

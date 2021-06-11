@@ -6,12 +6,12 @@ with open("README.md") as f:
     readme = f.read()
 
 with open("LICENSE") as f:
-    license = f.read()
+    license_ = f.read()
 
 setup(
     name="sliding_puzzle",
     version="0.0.1dev",
-    description="Sliding block/tile puzzle solver using multiple algorithmsms",
+    description="Sliding block/tile puzzle solver using multiple algorithms",
     long_description=readme,
     long_description_content_type="text/markdown",
     author="PARDINI Raphael, MIMOUN Avi",
@@ -21,8 +21,8 @@ setup(
         "Bug Tracker": "https://github.com/av1m/sliding-block-puzzles/issues",
         "Project Management": "https://github.com/av1m/sliding-block-puzzles/projects",
     },
-    license=license,
+    license=license_,
     packages=find_packages(),
     entry_points={"console_scripts": ["sliding_puzzle=sliding_puzzle.__main__:main"]},
-    python_requires=">=3.8",
+    python_requires=">=3.9",
 )
