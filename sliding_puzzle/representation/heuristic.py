@@ -1,4 +1,14 @@
 # -*- coding: utf-8 -*-
+"""
+Module representing the heuristics used to know an estimate of the cost of the resolution
+
+The Heuristic class defines a global interface for heuristic implementations
+
+3 heuristics are implanted here:
+- Misplaced
+- Manhattan
+- Linear Conflicts
+"""
 
 import copy
 from abc import ABC, abstractmethod

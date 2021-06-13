@@ -36,6 +36,11 @@ class Bidirectional(Search):
 
         It return nothing, but fill in self.solution with the good path.
         """
+        # check if the puzzle is already solved
+        if self.puzzle.is_goal():
+            self.solution = [self.puzzle]
+            return
+
         # creation of the back puzzle
         puzzle2: Puzzle = copy.copy(self.puzzle)
         puzzle2.tiles = copy.deepcopy(self.puzzle.GOAL_STATE)
@@ -75,7 +80,8 @@ class Bidirectional(Search):
                     ind = [x[-1] for x in queue2].index(move)
                     path2 = queue2[ind][1:]
                     path2.reverse()
-                    self.solution = path[1:] + path2
+                    self.solution: list[Puzzle] = path[1:] + path2
+                    self.solution[-1].cost = move.cost + path2[0].cost
                     self.complexity_memory = len(queue) + self.expanded_nodes
                     return
                 elif not ((move.tiles in expanded) or move in [x[-1] for x in queue]):
@@ -115,9 +121,10 @@ class Bidirectional(Search):
                 ]:  # check if the son is in the front border
                     ind = [x[-1] for x in queue].index(move)
                     path = queue[ind][1:]
-                    path2 = path2[1:]
-                    path2.reverse()
-                    self.solution = path + path2
+                    path2_middle_end = path2[1:]
+                    path2_middle_end.reverse()
+                    self.solution = path + path2_middle_end
+                    self.solution[-1].cost = move.cost + path[-1].cost
                     self.complexity_memory = len(queue) + self.expanded_nodes
                     return
                 elif not ((move.tiles in expanded2) or move in [x[-1] for x in queue2]):
