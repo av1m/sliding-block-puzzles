@@ -29,9 +29,23 @@ class IterativeDeepeningAStar(IterativeLengthening):
         return "Iterative Deepening A* Search"
 
     def _check_cost(self, puzzle: Puzzle, limit_cost: int) -> bool:
+        """Check the cost of the puzzle against the limit
+
+        :param puzzle: Puzzle on which we must check the cost
+        :type puzzle: Puzzle
+        :param limit_cost: Cost limit that the algorithm must not exceed
+        :type limit_cost: int
+        :return: true if the cost of the puzzle is strictly greater than the limit
+        :rtype: bool
+        """
         return (puzzle.cost + self.heuristic.compute(puzzle)) > limit_cost
 
     def _append_cost(self, puzzle: Puzzle) -> None:
+        """Add a cost to the list of cost limits
+
+        :param puzzle: puzzle where we get the cost
+        :type puzzle: Puzzle
+        """
         self.cost_sup_limit.append(puzzle.cost + self.heuristic.compute(puzzle))
 
     def solve(self) -> None:

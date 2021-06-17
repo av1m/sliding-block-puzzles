@@ -18,6 +18,7 @@ class UniformCost(Search):
 
     def solve(self) -> None:
         """This method solve the puzzle and save the path to do it.
+
         It return nothing, but fill in self.solution with the good path.
         """
         queue = [[self.puzzle]]  # initialization of the border

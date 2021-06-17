@@ -6,36 +6,40 @@
 
 Representation of a slide puzzle and implementation of algorithms allowing the resolution
 In this repository you will find:
-- Command Line Interface (CLI)
-- Webservice written in Flask (WSGI Server)
-- Representation of a Puzzle (i.e. sliding block puzzle)
-- Heuristics
-    - Linear Conflicts
-    - Misplaced
-    - Manhattan
-- Algorithms
-    - A* Search
-    - Breadth-First Search
-    - Depth-First Search
-    - Depth-Limited Search
-    - Greedy Best-First Search
-    - Iterative Deepening Depth-First Search
-    - Uniform-Cost Search
-    - Bidirectional search
-    - Iterative Lengthening Search
-    - Iterative Deepening A* Search
+
+* Command Line Interface (CLI)
+* Webservice written in Flask (WSGI Server)
+* Representation of a Puzzle (i.e. sliding block puzzle)
+* Heuristics
+  * Linear Conflicts
+  * Misplaced
+  * Manhattan
+* Algorithms
+  * A* Search
+  * Breadth-First Search
+  * Depth-First Search
+  * Depth-Limited Search
+  * Greedy Best-First Search
+  * Iterative Deepening Depth-First Search
+  * Uniform-Cost Search
+  * Bidirectional search
+  * Iterative Lengthening Search
+  * Iterative Deepening A* Search
 
 ## Usage 📖
 
 At this stage, you can use the project in different ways:
 
 1. In a python script, consult the [sample](sample/) directory for an example
-2. Run the CLI with the command ```python -m sliding_puzzle``` _(maybe you need to make `source .venv/bin/activate`)_
+2. Run the CLI with the command ```python -m sliding_puzzle```_(maybe you need to make `source .venv/bin/activate`)_
    Simple command
+
    ```shell
    python3 -m sliding_puzzle --tiles 1 3 2 4 0 7 5 8 6 --method a_star
    ```
+
    More complex
+
    ```shell
    python3 -m sliding_puzzle \
      --verbose \
@@ -43,7 +47,9 @@ At this stage, you can use the project in different ways:
      --method a_star depth_limited \
      --no-blank-at-first
    ```
-3. Run the server with the command ```make serve```
+
+3. Run the server with the command ```make serve
+
 4. Run a client GUI that request the server (created at 3.) or directly in Python (Flask, Django ...). Try an
    example [writing in Flutter](https://github.com/av1m/slide_puzzle)
 
@@ -58,17 +64,23 @@ python -m pip install git+https://github.com/av1m/sliding-block-puzzles
 You have now added the dependency, you can:
 
 * Run an example
+
    ```shell
    wget -qO- https://raw.githubusercontent.com/av1m/sliding-block-puzzles/master/sample/simple.py | python -
    ```
+
   > 💡 All the examples are in the [`sample/`](./sample/) directory
+
 * Run the CLI
+
    ```shell
    sliding_puzzle
    # Or, call it with python
    python -m sliding_puzzle
    ```
+
 * Run the server
+
    ```shell
    cd sliding_puzzle
    make serve
@@ -79,15 +91,20 @@ You have now added the dependency, you can:
 Use `python3` or `python` command (depending on your configuration)
 
 1. Clone this project
+
    ```shell
    git clone https://github.com/av1m/sliding-block-puzzles
    cd src-puzzles
    ```
+
 2. Run make command
+
    ```shell
    make install
    ```
+
 3. Test the project
+
    ```shell
    make test
    ```
@@ -105,7 +122,7 @@ gunicorn sliding_puzzle.wsgi --reload --timeout 1000
 ```
 
 For example, if you want to deploy to [Heroku](https://heroku.com), you can create a Heroku project. Then, add the
-heroku project to this project (through `git remote add`) and run this command
+heroku project to this project (through `git remote add` ) and run this command
 
 ```shell
 make deploy

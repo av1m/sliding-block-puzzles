@@ -4,6 +4,7 @@ from .exceptions import *
 
 from .search import Search
 from .exceptions import DepthLimitedError
+from .best_first import BestFirst
 from .breadth_first import BreadthFirst
 from .depth_first import DepthFirst
 from .a_star import AStar
