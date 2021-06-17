@@ -32,9 +32,8 @@ class DepthFirst(Search):
                 return
             expanded.append(node.tiles)
             self.expanded_nodes += 1
+            # generation of the sons of the node
             move: Puzzle
-            for (
-                move
-            ) in node.get_possible_actions():  # generation of the sons of the node
+            for move in node.get_possible_actions():
                 if not ((move.tiles in expanded) or move in [x[-1] for x in queue]):
                     queue.append(path + [move])

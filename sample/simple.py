@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from sliding_puzzle import Puzzle
 from sliding_puzzle.algorithm import *
 

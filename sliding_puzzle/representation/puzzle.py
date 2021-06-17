@@ -336,9 +336,8 @@ class Puzzle:
         :return: a randomly generated puzzle
         :rtype: Puzzle
         """
-        puzzle = Puzzle(
-            Puzzle._goal(n, blank_at_first), blank_at_first=blank_at_first
-        )  # We start from a goal puzzle
+        # We start from a goal puzzle
+        puzzle = Puzzle(Puzzle._goal(n, blank_at_first), blank_at_first=blank_at_first)
         gf = None  # grand father
         for i in range(mutations):
             # Get all possible actions

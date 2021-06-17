@@ -24,31 +24,27 @@ class UniformCost(Search):
         expanded = []  # list of nodes expanded
         self.expanded_nodes = 0  # counter of expanded nodes
         while queue:
-            cost_min: list[Union[Puzzle, int]] = Search.get_min_cost(
-                queue
-            )  # list sorted by cost
+            # list sorted by cost
+            cost_min: list[Union[Puzzle, int]] = Search.get_min_cost(queue)
             node: Puzzle = cost_min[0]  # get minimum cost
             index: int = cost_min[1]
-            path = queue.pop(
-                index
-            )  # deletion of the path to the current node in the border
+            # deletion of the path to the current node in the border
+            path = queue.pop(index)
             if node.is_goal():
                 self.solution = path
                 self.complexity_memory = len(queue) + self.expanded_nodes
                 return
             expanded.append(node.tiles)
             self.expanded_nodes += 1
-            for (
-                move
-            ) in node.get_possible_actions():  # generation of the sons of the node
+            # generation of the sons of the node
+            move: Puzzle
+            for move in node.get_possible_actions():
                 if not ((move.tiles in expanded) or move in [x[-1] for x in queue]):
                     queue.append(path + [move])
-                elif move in [
-                    x[-1] for x in queue
-                ]:  # check if node is already in the border
+                # check if node is already in the border
+                elif move in [x[-1] for x in queue]:
                     ind = [x[-1] for x in queue].index(move)
-                    if (
-                        queue[ind][-1].cost > move.cost
-                    ):  # we replace it if it has a better cost
+                    # we replace it if it has a better cost
+                    if queue[ind][-1].cost > move.cost:
                         queue.pop(ind)
                         queue.append(path + [move])

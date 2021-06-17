@@ -34,9 +34,8 @@ class AStar(Search):
 
         It return nothing, but fill in self.solution with the good path.
         """
-        queue: list = [
-            [self.heuristic.compute(self.puzzle), self.puzzle]
-        ]  # initialization of the border
+        # initialization of the border
+        queue: list = [[self.heuristic.compute(self.puzzle), self.puzzle]]
         expanded: list[TypePuzzle] = []  # list of nodes expanded
         self.expanded_nodes = 0  # counter of expanded nodes
         while queue:
@@ -45,9 +44,8 @@ class AStar(Search):
                 if queue[i][0] > queue[j][0]:  # minimum
                     i = j
             path = queue[i]
-            queue = (
-                queue[:i] + queue[i + 1 :]
-            )  # deletion of the path to the current node in the border
+            # deletion of the path to the current node in the border
+            queue = queue[:i] + queue[i + 1 :]
             node: Puzzle = path[-1]  # current node (last element of the path)
             if node.is_goal():
                 self.solution = path[1:]
@@ -55,10 +53,9 @@ class AStar(Search):
                 return
             expanded.append(node.tiles)
             self.expanded_nodes += 1
+            # generation of the sons of the node
             move: Puzzle
-            for (
-                move
-            ) in node.get_possible_actions():  # generation of the sons of the node
+            for move in node.get_possible_actions():
                 if not ((move.tiles in expanded) or move in [x[-1] for x in queue]):
                     new_path = (
                         [self.heuristic.compute(move) + move.cost] + path[1:] + [move]

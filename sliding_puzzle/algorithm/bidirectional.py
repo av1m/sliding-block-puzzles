@@ -46,12 +46,10 @@ class Bidirectional(Search):
         puzzle2.tiles = copy.deepcopy(self.puzzle.GOAL_STATE)
         puzzle2.GOAL_STATE = copy.deepcopy(self.puzzle.tiles)  # type: ignore
 
-        queue: list = [
-            [self.heuristic.compute(self.puzzle), self.puzzle]
-        ]  # border of the front puzzle
-        queue2: list = [
-            [self.heuristic.compute(puzzle2), puzzle2]
-        ]  # border of the back puzzle
+        # border of the front puzzle
+        queue: list = [[self.heuristic.compute(self.puzzle), self.puzzle]]
+        # border of the back puzzle
+        queue2: list = [[self.heuristic.compute(puzzle2), puzzle2]]
         expanded: list = []  # list of nodes expanded (front)
         expanded2: list = []  # list of nodes expanded (back)
         self.expanded_nodes = 0  # counter of expanded nodes
@@ -63,20 +61,17 @@ class Bidirectional(Search):
                 if queue[i][0] > queue[j][0]:  # minimum
                     i = j
             path = queue[i]
-            queue = (
-                queue[:i] + queue[i + 1 :]
-            )  # deletion of the path to the current node in the border
+            # deletion of the path to the current node in the border
+            queue = queue[:i] + queue[i + 1 :]
             node = path[-1]  # current node (last element of the path)
 
             expanded.append(node.tiles)
             self.expanded_nodes += 1
+            # generation of the sons of the node
             move: Puzzle
-            for (
-                move
-            ) in node.get_possible_actions():  # generation of the sons of the node
-                if move in [
-                    x[-1] for x in queue2
-                ]:  # check if the son is in the back border
+            for move in node.get_possible_actions():
+                # check if the son is in the back border
+                if move in [x[-1] for x in queue2]:
                     ind = [x[-1] for x in queue2].index(move)
                     path2 = queue2[ind][1:]
                     path2.reverse()
@@ -89,13 +84,11 @@ class Bidirectional(Search):
                         [self.heuristic.compute(move) + move.cost] + path[1:] + [move]
                     )
                     queue.append(new_path)
-                elif move in [
-                    x[-1] for x in queue
-                ]:  # check if node is already in the border
+                # check if node is already in the border
+                elif move in [x[-1] for x in queue]:
                     ind = [x[-1] for x in queue].index(move)
-                    if queue[ind][0] > self.heuristic.compute(
-                        move
-                    ):  # we replace it if it has a better cost
+                    # we replace it if it has a better cost
+                    if queue[ind][0] > self.heuristic.compute(move):
                         queue.pop(ind)
                         queue.append(path + [move])
 
@@ -105,20 +98,17 @@ class Bidirectional(Search):
                 if queue2[i][0] > queue2[j][0]:  # minimum
                     i = j
             path2 = queue2[i]
-            queue2 = (
-                queue2[:i] + queue2[i + 1 :]
-            )  # deletion of the path to the current node in the border
+            # deletion of the path to the current node in the border
+            queue2 = queue2[:i] + queue2[i + 1 :]
             node2 = path2[-1]  # current node (last element of the path)
 
             expanded2.append(node2.tiles)
             self.expanded_nodes += 1
+            # generation of the sons of the node
             move: Puzzle
-            for (
-                move
-            ) in node2.get_possible_actions():  # generation of the sons of the node
-                if move in [
-                    x[-1] for x in queue
-                ]:  # check if the son is in the front border
+            for move in node2.get_possible_actions():
+                # check if the son is in the front border
+                if move in [x[-1] for x in queue]:
                     ind = [x[-1] for x in queue].index(move)
                     path = queue[ind][1:]
                     path2_middle_end = path2[1:]
@@ -132,12 +122,10 @@ class Bidirectional(Search):
                         [self.heuristic.compute(move) + move.cost] + path2[1:] + [move]
                     )
                     queue2.append(new_path)
-                elif move in [
-                    x[-1] for x in queue2
-                ]:  # check if node is already in the border
+                # check if node is already in the border
+                elif move in [x[-1] for x in queue2]:
                     ind = [x[-1] for x in queue2].index(move)
-                    if queue2[ind][0] > self.heuristic.compute(
-                        move
-                    ):  # we replace it if it has a better cost
+                    # we replace it if it has a better cost
+                    if queue2[ind][0] > self.heuristic.compute(move):
                         queue2.pop(ind)
                         queue2.append(path2 + [move])

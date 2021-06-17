@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import logging
 import math
+import time
 from typing import Callable
 
 from sliding_puzzle import TypePuzzle, Puzzle
@@ -100,10 +101,14 @@ class CLI:
         """Starts the command line interface
         Print only on the terminal
         """
-        puzzle: Puzzle = Puzzle(self.parse_tiles(), self.args.blank_at_first)
+        start_time = time.time()
+        puzzle: Puzzle = Puzzle(
+            tiles=self.parse_tiles(), blank_at_first=self.args.blank_at_first
+        )
         for strategy in self.parse_method():
             strategy = strategy(puzzle)
             strategy.solve()
             print("{0} - Expanded Nodes: {1}".format(strategy, strategy.expanded_nodes))
             for step in strategy.solution:
                 print(step)
+        print(f"--- {time.time() - start_time} seconds ---")

@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 """
 Module used for the creation of an experiment protocol
 We generate random puzzles, with different complexity and size
@@ -177,7 +177,7 @@ if __name__ == "__main__":
 
     # Show the statistic
     try:
-        from statistic import show_report_statistic
+        from .statistic import show_report_statistic
 
         show_report_statistic(REPORT_PICKLE_NAME)
     except (ImportError, FileNotFoundError) as error:

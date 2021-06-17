@@ -74,14 +74,14 @@ class DepthLimited(Search):
             return DepthLimitedError.CUTOFF
         else:
             cut: bool = False
+            # generation of the sons of the node
             move: Puzzle
-            for (
-                move
-            ) in puzzle.get_possible_actions():  # generation of the sons of the node
+            for move in puzzle.get_possible_actions():
                 self.complexity_memory = max(self.complexity_memory, complexity_memory)
+                # recursive call with limit decrease by one
                 result: Union[DepthLimitedError, None] = self._recursive(
                     move, limit - 1, complexity_memory + 1
-                )  # recursive call with limit decrease by one
+                )
                 if result == DepthLimitedError.CUTOFF:
                     cut = True
                 elif result != DepthLimitedError.FAILURE:

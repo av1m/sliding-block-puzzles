@@ -93,10 +93,9 @@ class IterativeLengthening(Search):
             return DepthLimitedError.CUTOFF
         else:
             cut = False
+            # generation of the sons of the node
             move: Puzzle
-            for (
-                move
-            ) in puzzle.get_possible_actions():  # generation of the sons of the node
+            for move in puzzle.get_possible_actions():
                 self.complexity_memory = max(self.complexity_memory, complexity_memory)
                 result = self._recursive(move, limit_cost, complexity_memory + 1)
                 if result == DepthLimitedError.CUTOFF:
