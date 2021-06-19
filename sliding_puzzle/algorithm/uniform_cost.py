@@ -26,7 +26,7 @@ class UniformCost(Search):
         self.expanded_nodes = 0  # counter of expanded nodes
         while queue:
             # list sorted by cost
-            cost_min: list[Union[Puzzle, int]] = Search.get_min_cost(queue)
+            cost_min: list[Union[Puzzle, int]] = self.get_min_cost(queue)
             node: Puzzle = cost_min[0]  # get minimum cost
             index: int = cost_min[1]
             # deletion of the path to the current node in the border
@@ -49,3 +49,36 @@ class UniformCost(Search):
                     if queue[ind][-1].cost > move.cost:
                         queue.pop(ind)
                         queue.append(path + [move])
+
+    @staticmethod
+    def get_min_cost(queue: list[list[Puzzle]]) -> list[Union[Puzzle, int]]:
+        """Allows to search for the Puzzle that has the minimum cost in a Puzzle list list
+
+        Get the last element of each sublist then sort according to the minimum cost
+        This function does not modify the queue list
+
+        Example::
+
+            queue = [[
+                    Puzzle(tiles=[[3, 1, 2], [0, 4, 5], [6, 7, 8]], cost=2),
+                ],[
+                    Puzzle(tiles=[[3, 1, 2], [0, 4, 5], [6, 7, 8]], cost=4),
+                    Puzzle(tiles=[[3, 1, 2], [4, 0, 5], [6, 7, 8]], cost=1)
+                ],[
+                    Puzzle(tiles=[[3, 1, 2], [0, 4, 5], [6, 7, 8]], cost=6),
+                    Puzzle(tiles=[[3, 1, 2], [6, 4, 5], [0, 7, 8]], cost=5),
+                    Puzzle(tiles=[[3, 8, 2], [6, 4, 5], [0, 7, 1]], cost=2)
+            ]]
+
+            get_min_cost(queue) will return a list where :
+                - [0] = Puzzle(tiles=[[3, 1, 2], [4, 0, 5], [6, 7, 8]], cost=1)
+                - [1] = 1
+
+        :param queue: Puzzle List List
+        :return: list with two elements. At index 0, is the Puzzle.
+            At index 1, is the index of the sublist where the minimum cost puzzle was found
+        """
+        return sorted(
+            [[puzzle[-1], index] for index, puzzle in enumerate(queue)],
+            key=lambda list_: list_[0],
+        )[0]

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import annotations
+
 import logging
 from abc import abstractmethod, ABC
-from typing import List, final, Union
+from typing import final
 
 from sliding_puzzle import Puzzle
 
@@ -19,7 +21,7 @@ class Search(ABC):
     def __init__(self, init_puzzle: Puzzle) -> None:
         self.expanded_nodes: int = ...
         self.complexity_memory: int = ...
-        self.solution: List[Puzzle] = ...
+        self.solution: list[Puzzle] = ...
         self.puzzle: Puzzle = init_puzzle
         if not self.is_solvable(init_puzzle):
             raise ValueError("The puzzle has no solution")
@@ -31,40 +33,6 @@ class Search(ABC):
         :return: None. Updates the value of the attributes of the class
         """
         return
-
-    @staticmethod
-    @final
-    def get_min_cost(queue: List[List[Puzzle]]) -> List[Union[Puzzle, int]]:
-        """Allows to search for the Puzzle that has the minimum cost in a Puzzle list list
-
-        Get the last element of each sublist then sort according to the minimum cost
-        This function does not modify the queue list
-
-        Example::
-
-            queue = [[
-                    Puzzle(tiles=[[3, 1, 2], [0, 4, 5], [6, 7, 8]], cost=2),
-                ],[
-                    Puzzle(tiles=[[3, 1, 2], [0, 4, 5], [6, 7, 8]], cost=4),
-                    Puzzle(tiles=[[3, 1, 2], [4, 0, 5], [6, 7, 8]], cost=1)
-                ],[
-                    Puzzle(tiles=[[3, 1, 2], [0, 4, 5], [6, 7, 8]], cost=6),
-                    Puzzle(tiles=[[3, 1, 2], [6, 4, 5], [0, 7, 8]], cost=5),
-                    Puzzle(tiles=[[3, 8, 2], [6, 4, 5], [0, 7, 1]], cost=2)
-            ]]
-
-            get_min_cost(queue) will return a list where :
-                - [0] = Puzzle(tiles=[[3, 1, 2], [4, 0, 5], [6, 7, 8]], cost=1)
-                - [1] = 1
-
-        :param queue: Puzzle List List
-        :return: list with two elements. At index 0, is the Puzzle.
-            At index 1, is the index of the sublist where the minimum cost puzzle was found
-        """
-        return sorted(
-            [[puzzle[-1], index] for index, puzzle in enumerate(queue)],
-            key=lambda list_: list_[0],
-        )[0]
 
     @staticmethod
     @final
@@ -89,8 +57,8 @@ class Search(ABC):
         :rtype: bool
         """
         # We transform our puzzle into 1D (need for the inversions)
-        puzzle1d: List[int] = Puzzle.to1D(puzzle)
-        solved1d: List[int] = Puzzle.to1D(puzzle.GOAL_STATE)
+        puzzle1d: list[int] = Puzzle.to1D(puzzle)
+        solved1d: list[int] = Puzzle.to1D(puzzle.GOAL_STATE)
         # Calculation of the number of inversions
         inversions: int = sum(
             1
