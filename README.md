@@ -4,27 +4,31 @@
 [![Python3.9](https://img.shields.io/badge/Python-3.9-blue)](https://docs.python.org/3/whatsnew/3.9.html)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/av1m/sliding-block-puzzles/blob/master/LICENSE)
 
-Representation of a slide puzzle and implementation of algorithms allowing the resolution
-In this repository you will find:
+Representation of a slide puzzle and implementation of algorithms allowing the resolution In this repository you will
+find:
 
 * Command Line Interface (CLI)
 * Webservice written in Flask (WSGI Server)
 * Representation of a Puzzle (i.e. sliding block puzzle)
 * Heuristics
-  * Linear Conflicts
-  * Misplaced
-  * Manhattan
+    * Linear Conflicts
+    * Misplaced
+    * Manhattan
 * Algorithms
-  * A* Search
-  * Breadth-First Search
-  * Depth-First Search
-  * Depth-Limited Search
-  * Greedy Best-First Search
-  * Iterative Deepening Depth-First Search
-  * Uniform-Cost Search
-  * Bidirectional search
-  * Iterative Lengthening Search
-  * Iterative Deepening A* Search
+    * A* Search
+    * Breadth-First Search
+    * Depth-First Search
+    * Depth-Limited Search
+    * Greedy Best-First Search
+    * Iterative Deepening Depth-First Search
+    * Uniform-Cost Search
+    * Bidirectional search
+    * Iterative Lengthening Search
+    * Iterative Deepening A* Search
+
+> ⚠️ Because it's a university project, the cost is not real but can be modified in the [Puzzle:get_cost()](sliding_puzzle/representation/puzzle.py) function
+
+> 💡 An experimental protocol was carried out. The source code as well as an analysis is available in the [report](report/) directory
 
 ## Usage 📖
 
