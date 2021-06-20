@@ -3,6 +3,7 @@
 [![Sliding Puzzle CI](https://github.com/av1m/sliding-block-puzzles/actions/workflows/actions.yaml/badge.svg)](https://github.com/av1m/sliding-block-puzzles/actions/workflows/actions.yaml)
 [![Python3.9](https://img.shields.io/badge/Python-3.9-blue)](https://docs.python.org/3/whatsnew/3.9.html)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/av1m/sliding-block-puzzles/blob/master/LICENSE)
+[![Try demo](https://img.shields.io/badge/demo%20%F0%9F%8E%AE-red)](https://av1m.github.io/slide_puzzle/#/)
 
 Representation of a slide puzzle and implementation of algorithms allowing the resolution In this repository you will
 find:
