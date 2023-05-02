@@ -123,7 +123,7 @@ def start_protocol() -> list[dict]:
 
     i: int
     puzzle: Puzzle
-    for (i, puzzle) in enumerate(puzzles):
+    for i, puzzle in enumerate(puzzles):
         for strategy_name, strategy in get_algorithm.items():
             print(f"Puzzle n°{i + 1}, strategy = {strategy_name}, mutations = {i + 1}")
             Puzzle.counter = 0

@@ -312,7 +312,7 @@ class Puzzle:
         :return: the final state of the game
         :rtype: TypePuzzle
         """
-        full_tiles_goal = list(range(1, n ** 2))
+        full_tiles_goal = list(range(1, n**2))
         full_tiles_goal.insert(0 if blank_at_first else len(full_tiles_goal), 0)
         return [full_tiles_goal[x : x + n] for x in range(0, len(full_tiles_goal), n)]
 
